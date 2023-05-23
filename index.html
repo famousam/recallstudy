@@ -231,53 +231,112 @@
 //         }
 //     });
 // });
-         function checkAnswers() {
-            let pages = document.getElementsByClassName('page');
-            let currentPage = document.querySelector('.page.show');
-            let currentButton = currentPage.querySelector('.button');
-            let inputs = currentPage.getElementsByTagName('input');
-            let allAnswered = true;
+//          function checkAnswers() {
+//             let pages = document.getElementsByClassName('page');
+//             let currentPage = document.querySelector('.page.show');
+//             let currentButton = currentPage.querySelector('.button');
+//             let inputs = currentPage.getElementsByTagName('input');
+//             let allAnswered = true;
 
-            for (let input of inputs) {
-                if (input.type === 'radio') {
-                    let name = input.name;
-                    let checked = currentPage.querySelector(`input[name="${name}"]:checked`);
-                    if (!checked) {
-                        allAnswered = false;
-                        break;
-                    }
-                }
-            }
+//             for (let input of inputs) {
+//                 if (input.type === 'radio') {
+//                     let name = input.name;
+//                     let checked = currentPage.querySelector(`input[name="${name}"]:checked`);
+//                     if (!checked) {
+//                         allAnswered = false;
+//                         break;
+//                     }
+//                 }
+//             }
 
-            currentButton.disabled = !allAnswered;
+//             currentButton.disabled = !allAnswered;
+//         }
+//         function next() {
+//             let pages = Array.from(document.getElementsByClassName('page'));
+//             let currentPageIndex = pages.findIndex(page => page.classList.contains('show'));
+
+//             if (currentPageIndex >= 0 && currentPageIndex < pages.length - 1) {
+//                 pages[currentPageIndex].classList.remove('show');
+//                 pages[currentPageIndex].classList.add('hide');
+//                 pages[currentPageIndex + 1].classList.remove('hide');
+//                 pages[currentPageIndex + 1].classList.add('show');
+//                 pages[currentPageIndex + 1].querySelector('.button').disabled = true;
+//             }
+//         }
+
+//         window.onload = function() {
+//             let radios = document.getElementsByTagName('input');
+//             for (let radio of radios) {
+//                 if (radio.type === 'radio') {
+//                     radio.onchange = checkAnswers;
+//                 }
+//             }
+
+//             let buttons = document.getElementsByClassName('button');
+//             for (let button of buttons) {
+//                 button.onclick = next;
+//                 button.disabled = true;
+//             }
+//         };
+        let currentPage = 0;  // start at the first page
+
+window.onload = function() {
+  checkAnswers();  // call this function to initialize button states on load
+};
+
+function checkAnswers() {
+  let pages = document.getElementsByClassName('page');
+  for (let i = 0; i < pages.length; i++) {
+    let radios = pages[i].getElementsByTagName('input');
+    let allAnswered = true;
+    let groupedRadios = {};
+
+    // group radio buttons by their name attribute
+    for (let j = 0; j < radios.length; j++) {
+      if (radios[j].type === 'radio') {
+        if (!groupedRadios[radios[j].name]) {
+          groupedRadios[radios[j].name] = [];
         }
-        function next() {
-            let pages = Array.from(document.getElementsByClassName('page'));
-            let currentPageIndex = pages.findIndex(page => page.classList.contains('show'));
+        groupedRadios[radios[j].name].push(radios[j]);
+      }
+    }
 
-            if (currentPageIndex >= 0 && currentPageIndex < pages.length - 1) {
-                pages[currentPageIndex].classList.remove('show');
-                pages[currentPageIndex].classList.add('hide');
-                pages[currentPageIndex + 1].classList.remove('hide');
-                pages[currentPageIndex + 1].classList.add('show');
-                pages[currentPageIndex + 1].querySelector('.button').disabled = true;
-            }
+    // check if all radio button groups have at least one button selected
+    for (let groupName in groupedRadios) {
+      let groupAnswered = false;
+      for (let k = 0; k < groupedRadios[groupName].length; k++) {
+        if (groupedRadios[groupName][k].checked) {
+          groupAnswered = true;
+          break;
         }
+      }
+      if (!groupAnswered) {
+        allAnswered = false;
+        break;
+      }
+    }
 
-        window.onload = function() {
-            let radios = document.getElementsByTagName('input');
-            for (let radio of radios) {
-                if (radio.type === 'radio') {
-                    radio.onchange = checkAnswers;
-                }
-            }
+    // enable or disable the button based on whether all questions were answered
+    let button = document.getElementsByClassName('button')[i];
+    button.disabled = !allAnswered;
+  }
+}
 
-            let buttons = document.getElementsByClassName('button');
-            for (let button of buttons) {
-                button.onclick = next;
-                button.disabled = true;
-            }
-        };
+function nextPage() {
+  let pages = document.getElementsByClassName('page');
+  let button = document.getElementsByClassName('button')[currentPage];
+  pages[currentPage].style.display = 'none';  // hide current page
+  currentPage++;  // move to next page
+
+  // If there's a next page, show it. Otherwise, redirect to a new page.
+  if (currentPage < pages.length) {
+    pages[currentPage].style.display = 'block';  // show next page
+    button = document.getElementsByClassName('button')[currentPage];
+    button.disabled = true;  // disable the button on the next page until all questions are answered
+  } else {
+    window.location.href = "next_page.html";
+  }
+}
         </script>
 </head>
     
