@@ -103,25 +103,27 @@
               }      
           }
           function checkAnswers() {
-                let allAnswered = true;
-                let currentInputs = document.querySelectorAll(`.page${currentPage} input[type="radio"]`);
-                let questions = new Set();
+            let allAnswered = true;
+            let currentInputs = document.querySelectorAll(`.page${currentPage} input[type="radio"]`);
+            let questionNames = new Set();
+            let answeredQuestions = new Set();
 
-                for (let i = 0; i < currentInputs.length; i++) {
-                    if (currentInputs[i].checked) {
-                        questions.add(currentInputs[i].name);
-                    }
-                }
-
-                allAnswered = questions.size === (currentInputs.length / 2);
-
-                let button = document.querySelector(`.page${currentPage} .button`);
-                if (allAnswered) {
-                    button.disabled = false;
-                } else {
-                    button.disabled = true;
+            for (let i = 0; i < currentInputs.length; i++) {
+                questionNames.add(currentInputs[i].name);
+                if (currentInputs[i].checked) {
+                    answeredQuestions.add(currentInputs[i].name);
                 }
             }
+
+            allAnswered = questionNames.size === answeredQuestions.size;
+
+            let button = document.querySelector(`.page${currentPage} .button`);
+            if (allAnswered) {
+                button.disabled = false;
+            } else {
+                button.disabled = true;
+            }
+        }
         </script>
 </head>
     
