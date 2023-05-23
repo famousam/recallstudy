@@ -78,7 +78,8 @@
           height: 95vh;
         }
           </style>
-        <script type="text/javascript">var showing = [1, 0, 0, 0, 0, 0];
+        <script type="text/javascript">
+          var showing = [1, 0, 0, 0, 0, 0];
           var questions = ['i0', 'i1', 'q_demographics', 'att0', 'att1', 'att2'];
           function next() {
               var qElems = [];
@@ -101,6 +102,26 @@
                   }
               }      
           }
+          function checkAnswers() {
+                let allAnswered = true;
+                let currentInputs = document.querySelectorAll(`.page${currentPage} input[type="radio"]`);
+                let questions = new Set();
+
+                for (let i = 0; i < currentInputs.length; i++) {
+                    if (currentInputs[i].checked) {
+                        questions.add(currentInputs[i].name);
+                    }
+                }
+
+                allAnswered = questions.size === (currentInputs.length / 2);
+
+                let button = document.querySelector(`.page${currentPage} .button`);
+                if (allAnswered) {
+                    button.disabled = false;
+                } else {
+                    button.disabled = true;
+                }
+            }
         </script>
 </head>
     
@@ -114,7 +135,7 @@
       <button onclick="next()" class="button">Start</button>
 
     </div>
-    <div id="i1" style="display: none">
+    <div id="i1" style="display: none" class="page page1">
         <div class="phone_outer">
          <div class="phone">
             <div class="phone_inner">
@@ -183,7 +204,7 @@
           </div>
         </div>
     </div>
-    <div id="q_demographics"  style="display: none">
+    <div id="q_demographics"  style="display: none" class="page page2">
       <h2>Please give us a little background about yourself</h2>
       <p>What is your gender?</p>
       <input type="radio" required id="gender_1" name="gender" value="1">
@@ -240,25 +261,25 @@
 
       <button onclick="next()" class="button" style="margin: 0 auto;display: block;">Continue with questionaire</button>
     </div>
-    <div id="att0"  style="display: none">
+    <div id="att0"  style="display: none" class="page page3">
         <h2>Study Background</h2><br>
        In this study, we want to understand how you recall brand elements. As an example you see this picture of an <b>amazon</b> and a <b>Disney</b> logo.<br>
       <p>  
-      On the next pages you should remember that you did see <b>amazon</b> and a <b>Disney</b>.<br>
+      On the next pages you should remember that you did see <b>amazon</b> and <b>Disney</b>.<br>
       You will be asked to input these two brands in textfield and then get asked with <b>yes/no</b> questions if you have seen these and other brands on the below image.<br></p>
-      <img src="https://recallstudy.s3.us-east-2.amazonaws.com/amazon_disney.jpg"></img>
+      <img src="https://recallstudy.s3.us-east-2.amazonaws.com/amazon_disney.jpg"></img><br>
       <button onclick="next()" class="button">Start</button>
     </div>
-    <div id="att1"  style="display: none">
+    <div id="att1"  style="display: none" class="page page4">
       <h2>Brand Recall Last Image</h2><br>
        Please write both brands seen on the last image in the below text field and separate them by a comma.<br>
       <p>  
       <textarea rows = "5" cols = "60" name = "description">
-            Enter brands seen on last image comma-separted here...
+            
       </textarea><br>
       <button onclick="next()" class="button">Start</button>
     </div>
-    <div id="att2"  style="display: none">
+    <div id="att2"  style="display: none" class="page page5">
       <h2>Brand Recall Last Image</h2><br>
        Please write both brands seen on the last page in the below text field and separate them by a comma.<br>
       <p>  
@@ -269,22 +290,22 @@
             <th width="25%">No</th>
           </tr>
           <tr>
-            <td><img src="https://recallstudy.s3.us-east-2.amazonaws.com/Disney.png"></img></td>
+            <td><img src="https://recallstudy.s3.us-east-2.amazonaws.com/Disney.png" height="50px"></img></td>
             <td onclick="question1_1.checked = true"><input type="radio" required id="question1_1" name="question0" value="0"></td>
             <td onclick="question1_2.checked = true"><input type="radio" required id="question1_2" name="question0" value="1"></td>
           </tr>
           <tr>
-            <td><img src="https://recallstudy.s3.us-east-2.amazonaws.com/Microsoft_29.png"></img></td>
+            <td><img src="https://recallstudy.s3.us-east-2.amazonaws.com/Microsoft_29.png" height="50px"></img></td>
             <td onclick="question2_1.checked = true"><input type="radio" required id="question2_1" name="question1" value="0"></td>
             <td onclick="question2_2.checked = true"><input type="radio" required id="question2_2" name="question1" value="1"></td>
           </tr>
           <tr>
-            <td><img src="https://recallstudy.s3.us-east-2.amazonaws.com/Tesla_Motors.png"></img></td>
+            <td><img src="https://recallstudy.s3.us-east-2.amazonaws.com/Tesla-Logo-No-Background.png" height="50px"></img></td>
             <td onclick="question3_1.checked = true"><input type="radio" required id="question3_1" name="question2" value="0"></td>
             <td onclick="question3_2.checked = true"><input type="radio" required id="question3_2" name="question2" value="1"></td>
           </tr>
           <tr>
-            <td><img src="https://recallstudy.s3.us-east-2.amazonaws.com/Amazon.png"></img></td>
+            <td><img src="https://recallstudy.s3.us-east-2.amazonaws.com/Amazon.png" height="50px"></img></td>
             <td onclick="question4_1.checked = true"><input type="radio" required id="question4_1" name="question3" value="0"></td>
             <td onclick="question4_2.checked = true"><input type="radio" required id="question4_2" name="question3" value="1"></td>
           </tr>
