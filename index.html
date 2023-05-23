@@ -79,29 +79,29 @@
         }
           </style>
         <script type="text/javascript">
-          var showing = [1, 0, 0, 0, 0, 0];
-          var questions = ['i0', 'i1', 'q_demographics', 'att0', 'att1', 'att2'];
-          function next() {
-              var qElems = [];
-              for (var i = 0; i < questions.length; i++) {
-                  qElems.push(document.getElementById(questions[i]));   
-              }
-              for (var i = 0; i < showing.length; i++) {
-                  if (showing[i] == 1) {
-                      qElems[i].style.display = 'none';
-                      showing[i] = 0;
-                      if (i == showing.length - 1) {
-                          qElems[0].style.display = 'block';
-                          // showing[0] = 1;
-                          document.getElementById('next').style.display = 'none';
-                      } else {
-                          qElems[i + 1].style.display = 'block';
-                          showing[i + 1] = 1;
-                      }
-                      break;
-                  }
-              }      
-          }
+//           var showing = [1, 0, 0, 0, 0, 0];
+//           var questions = ['i0', 'i1', 'q_demographics', 'att0', 'att1', 'att2'];
+//           function next() {
+//               var qElems = [];
+//               for (var i = 0; i < questions.length; i++) {
+//                   qElems.push(document.getElementById(questions[i]));   
+//               }
+//               for (var i = 0; i < showing.length; i++) {
+//                   if (showing[i] == 1) {
+//                       qElems[i].style.display = 'none';
+//                       showing[i] = 0;
+//                       if (i == showing.length - 1) {
+//                           qElems[0].style.display = 'block';
+//                           // showing[0] = 1;
+//                           document.getElementById('next').style.display = 'none';
+//                       } else {
+//                           qElems[i + 1].style.display = 'block';
+//                           showing[i + 1] = 1;
+//                       }
+//                       break;
+//                   }
+//               }      
+//           }
 //           function checkAnswers() {
 //             let allAnswered = true;
 //             let currentInputs = document.querySelectorAll(`.page${currentPage} input[type="radio"]`);
@@ -241,7 +241,7 @@ buttons.forEach((button, index) => {
       <p>  
       On the next page you should look at a number of images that look like posts on the social media platform Instagram.<br>
       Please look at all the images when you scroll down - you will find a "next" button on the very bottom. You will be asked a number of questions about these images on the following pages.</p>
-      <button onclick="next()" class="button">Start</button>
+      <button class="button">Start</button>
 
     </div>
     <div id="i1" style="display: none" class="page page1">
@@ -308,7 +308,7 @@ buttons.forEach((button, index) => {
               <img src="https://instaimagessurvey.s3.us-east-2.amazonaws.com/insta_top.jpg" width="100%"></img>
               <img src="${image_19}" width="100%"></img>
               <img src="https://instaimagessurvey.s3.us-east-2.amazonaws.com/insta_bottom.jpg" width="100%"></img><br><br>
-              <button onclick="next()" class="button" style="margin: 0 auto;display: block;">Start questionaire</button><br><br>
+              <button class="button" style="margin: 0 auto;display: block;">Start questionaire</button><br><br>
             </div>
           </div>
         </div>
