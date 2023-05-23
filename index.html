@@ -124,6 +124,33 @@
                 button.disabled = true;
             }
         }
+        window.onload = function() {
+            let pages = document.getElementsByClassName('page');
+            let buttons = document.getElementsByClassName('button');
+            let radios = document.getElementsByClassName('radio');
+
+            for (let i = 0; i < pages.length; i++) {
+                for (let j = 0; j < radios.length; j++) {
+                    radios[j].onclick = function() {
+                        checkAllRadioButtons(pages[i], buttons[i]);
+                    };
+                }
+            }
+        }
+
+        function checkAllRadioButtons(page, button) {
+            let radios = page.getElementsByTagName('input');
+            let allChecked = true;
+
+            for (let i = 0; i < radios.length; i++) {
+                if (radios[i].type === 'radio' && !radios[i].checked) {
+                    allChecked = false;
+                    break;
+                }
+            }
+
+            button.disabled = !allChecked;
+        }
         </script>
 </head>
     
@@ -261,7 +288,7 @@
       <input type="radio" required id="brand_focus_5" name="brand_focus" value="5" onchange="checkAnswers()">
       <label onclick="brand_focus_5.checked = true">strongly agree</label>
 
-      <button onclick="next()" class="button" style="margin: 0 auto;display: block;" disabled>Continue with questionaire</button>
+      <button onclick="next(page2)" class="button" style="margin: 0 auto;display: block;" disabled>Continue with questionaire</button>
     </div>
     <div id="att0"  style="display: none" class="page page3">
         <h2>Study Background</h2><br>
