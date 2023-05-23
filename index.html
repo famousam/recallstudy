@@ -207,59 +207,59 @@
     <div id="q_demographics"  style="display: none" class="page page2">
       <h2>Please give us a little background about yourself</h2>
       <p>What is your gender?</p>
-      <input type="radio" required id="gender_1" name="gender" value="1">
+      <input type="radio" required id="gender_1" name="gender" value="1" onchange="checkAnswers()">
       <label onclick="gender_1.checked = true">Female</label>
-      <input type="radio" required id="gender_2" name="gender" value="2">
+      <input type="radio" required id="gender_2" name="gender" value="2" onchange="checkAnswers()">
       <label onclick="gender_2.checked = true">Male</label>
-      <input type="radio" required id="gender_3" name="gender" value="3">
+      <input type="radio" required id="gender_3" name="gender" value="3" onchange="checkAnswers()">
       <label onclick="gender_3.checked = true">Other</label>
-      <input type="radio" required id="gender_4" name="gender" value="4">
+      <input type="radio" required id="gender_4" name="gender" value="4" onchange="checkAnswers()">
       <label onclick="gender_4.checked = true">Prefer not to say</label><br><br>
 
       <p>Are you color blind?</p>
-      <input type="radio" required id="colorblindness_1" name="colorblindness" value="1">
+      <input type="radio" required id="colorblindness_1" name="colorblindness" value="1" onchange="checkAnswers()">
       <label onclick="colorblindness_2.checked = true">Yes</label>
-      <input type="radio" required id="colorblindness_2" name="colorblindness" value="2">
+      <input type="radio" required id="colorblindness_2" name="colorblindness" value="2" onchange="checkAnswers()">
       <label onclick="colorblindness_2.checked = true">No</label><br><br>
 
       <p>How often are you using social media:</p>
-      <input type="radio" required id="social_media_usage_1" name="social_media_usage" value="1">
+      <input type="radio" required id="social_media_usage_1" name="social_media_usage" value="1" onchange="checkAnswers()">
       <label onclick="social_media_usage_1.checked = true">Never</label>
-      <input type="radio" required id="social_media_usage_2" name="social_media_usage" value="2">
+      <input type="radio" required id="social_media_usage_2" name="social_media_usage" value="2" onchange="checkAnswers()">
       <label onclick="social_media_usage_2.checked = true">Less than once daily</label>
-      <input type="radio" required id="social_media_usage_3" name="social_media_usage" value="3">
+      <input type="radio" required id="social_media_usage_3" name="social_media_usage" value="3" onchange="checkAnswers()">
       <label onclick="social_media_usage_3.checked = true">About once daily</label>
-      <input type="radio" required id="social_media_usage_4" name="social_media_usage" value="4">
+      <input type="radio" required id="social_media_usage_4" name="social_media_usage" value="4" onchange="checkAnswers()">
       <label onclick="social_media_usage_4.checked = true">Several times daily</label>
-      <input type="radio" required id="social_media_usage_5" name="social_media_usage" value="5">
+      <input type="radio" required id="social_media_usage_5" name="social_media_usage" value="5" onchange="checkAnswers()">
       <label onclick="social_media_usage_5.checked = true">Many times daily</label>
-      <input type="radio" required id="social_media_usage_6" name="social_media_usage" value="6">
+      <input type="radio" required id="social_media_usage_6" name="social_media_usage" value="6" onchange="checkAnswers()">
       <label onclick="social_media_usage_6.checked = true">All day long</label><br><br>
 
       <p>Are you using Instagram:</p>
-      <input type="radio" required id="instagram_usage_1" name="instagram_usage" value="1">
+      <input type="radio" required id="instagram_usage_1" name="instagram_usage" value="1" onchange="checkAnswers()">
       <label onclick="instagram_usage_1.checked = true">Never</label>
-      <input type="radio" required id="instagram_usage_2" name="instagram_usage" value="2">
+      <input type="radio" required id="instagram_usage_2" name="instagram_usage" value="2" onchange="checkAnswers()">
       <label onclick="instagram_usage_2.checked = true">Only a few time daily</label>
-      <input type="radio" required id="instagram_usage_3" name="instagram_usage" value="3">
+      <input type="radio" required id="instagram_usage_3" name="instagram_usage" value="3" onchange="checkAnswers()">
       <label onclick="instagram_usage_3.checked = true">Many times daily</label>
-      <input type="radio" required id="instagram_usage_4" name="instagram_usage" value="4">
+      <input type="radio" required id="instagram_usage_4" name="instagram_usage" value="4" onchange="checkAnswers()">
       <label onclick="instagram_usage_4.checked = true">All day long</label>
 
 
       <p>When purchasing, I focus mainly on the brand.</p>
-      <input type="radio" required id="brand_focus_1" name="brand_focus" value="1">
+      <input type="radio" required id="brand_focus_1" name="brand_focus" value="1" onchange="checkAnswers()">
       <label onclick="brand_focus_1.checked = true">Strongly disagree</label>
-      <input type="radio" required id="brand_focus_2" name="brand_focus" value="2">
+      <input type="radio" required id="brand_focus_2" name="brand_focus" value="2" onchange="checkAnswers()">
       <label onclick="brand_focus_2.checked = true">&nbsp;</label>
-      <input type="radio" required id="brand_focus_3" name="brand_focus" value="3">
+      <input type="radio" required id="brand_focus_3" name="brand_focus" value="3" onchange="checkAnswers()">
       <label onclick="brand_focus_3.checked = true">&nbsp;</label>
-      <input type="radio" required id="brand_focus_4" name="brand_focus" value="4">
+      <input type="radio" required id="brand_focus_4" name="brand_focus" value="4" onchange="checkAnswers()">
       <label onclick="brand_focus_4.checked = true">&nbsp;</label>
-      <input type="radio" required id="brand_focus_5" name="brand_focus" value="5">
+      <input type="radio" required id="brand_focus_5" name="brand_focus" value="5" onchange="checkAnswers()">
       <label onclick="brand_focus_5.checked = true">strongly agree</label>
 
-      <button onclick="next()" class="button" style="margin: 0 auto;display: block;">Continue with questionaire</button>
+      <button onclick="next()" class="button" style="margin: 0 auto;display: block;" disabled="true">Continue with questionaire</button>
     </div>
     <div id="att0"  style="display: none" class="page page3">
         <h2>Study Background</h2><br>
@@ -271,8 +271,8 @@
       <button onclick="next()" class="button">Start</button>
     </div>
     <div id="att1"  style="display: none" class="page page4">
-      <h2>Brand Recall Last Image</h2><br>
-       Please write both brands seen on the last image in the below text field and separate them by a comma.<br>
+      <h2>Write down the two brand that you have seen on the previous image with a comma between them.<br>
+       <b>Attention:</b> Please consider each brand carefully. Your payment will based on plausible responses. </h2>
       <p>  
       <textarea rows = "5" cols = "60" name = "description">
             
@@ -280,8 +280,8 @@
       <button onclick="next()" class="button">Start</button>
     </div>
     <div id="att2"  style="display: none" class="page page5">
-      <h2>Brand Recall Last Image</h2><br>
-       Please write both brands seen on the last page in the below text field and separate them by a comma.<br>
+      <h2>Have you seen any of these brand logos on the previous image?<br>
+       <b>Attention:</b> Please consider each brand carefully. Your payment will based on plausible responses. </h2>
       <p>  
       <table>
           <tr>
@@ -291,26 +291,148 @@
           </tr>
           <tr>
             <td><img src="https://recallstudy.s3.us-east-2.amazonaws.com/Disney.png" height="50px"></img></td>
+            <td onclick="att_question1_1.checked = true"><input type="radio" required id="att_question1_1" name="att_question0" value="0" onchange="checkAnswers()"></td>
+            <td onclick="att_question1_2.checked = true"><input type="radio" required id="att_question1_2" name="att_question0" value="1" onchange="checkAnswers()"></td>
+          </tr>
+          <tr>
+            <td><img src="https://recallstudy.s3.us-east-2.amazonaws.com/Microsoft_29.png" height="50px"></img></td>
+            <td onclick="att_question2_1.checked = true"><input type="radio" required id="att_question2_1" name="att_question1" value="0" onchange="checkAnswers()"></td>
+            <td onclick="att_question2_2.checked = true"><input type="radio" required id="att_question2_2" name="att_question1" value="1" onchange="checkAnswers()"></td>
+          </tr>
+          <tr>
+            <td><img src="https://recallstudy.s3.us-east-2.amazonaws.com/Tesla-Logo-No-Background.png" height="50px"></img></td>
+            <td onclick="att_question3_1.checked = true"><input type="radio" required id="att_question3_1" name="att_question2" value="0" onchange="checkAnswers()"></td>
+            <td onclick="att_question3_2.checked = true"><input type="radio" required id="att_question3_2" name="att_question2" value="1" onchange="checkAnswers()"></td>
+          </tr>
+          <tr>
+            <td><img src="https://recallstudy.s3.us-east-2.amazonaws.com/Amazon.png" height="50px"></img></td>
+            <td onclick="att_question4_1.checked = true"><input type="radio" required id="att_question4_1" name="att_question3" value="0" onchange="checkAnswers()"></td>
+            <td onclick="att_question4_2.checked = true"><input type="radio" required id="att_question4_2" name="att_question3" value="1" onchange="checkAnswers()"></td>
+          </tr>
+        </table><br>
+      <button onclick="next()" class="button" disabled="true">Start</button>
+    </div>
+    <div id="q_text"  style="display: none" class="page page4">
+      <h2>Write down all brands that you have seen in the previous Instagram feed with a comma between them.<br>
+       <b>Attention:</b> Please consider each brand carefully. Your payment will based on plausible responses. </h2>
+      <p>  
+      <textarea rows = "5" cols = "60" name = "description">
+            
+      </textarea><br>
+      <button onclick="next()" class="button">Start</button>
+    </div>
+    <div id="q_radio" style="display: none">
+          <h2>Have you seen any of these brand logos in the previous Instagram feed?
+        <b>Attention:</b> Please consider each brand carefully. Your payment will based on plausible responses. </h2>
+
+        <table>
+          <tr>
+            <th width="50%">&nbsp;</th>
+            <th width="25%">Did not see</th>
+            <th width="25%">Saw very certain</th>
+          </tr>
+          <tr>
+            <td><img src="${logo_0}"></img></td>
             <td onclick="question1_1.checked = true"><input type="radio" required id="question1_1" name="question0" value="0" onchange="checkAnswers()"></td>
             <td onclick="question1_2.checked = true"><input type="radio" required id="question1_2" name="question0" value="1" onchange="checkAnswers()"></td>
           </tr>
           <tr>
-            <td><img src="https://recallstudy.s3.us-east-2.amazonaws.com/Microsoft_29.png" height="50px"></img></td>
+            <td><img src="${logo_1}"></img></td>
             <td onclick="question2_1.checked = true"><input type="radio" required id="question2_1" name="question1" value="0" onchange="checkAnswers()"></td>
             <td onclick="question2_2.checked = true"><input type="radio" required id="question2_2" name="question1" value="1" onchange="checkAnswers()"></td>
           </tr>
           <tr>
-            <td><img src="https://recallstudy.s3.us-east-2.amazonaws.com/Tesla-Logo-No-Background.png" height="50px"></img></td>
+            <td><img src="${logo_2}"></img></td>
             <td onclick="question3_1.checked = true"><input type="radio" required id="question3_1" name="question2" value="0" onchange="checkAnswers()"></td>
             <td onclick="question3_2.checked = true"><input type="radio" required id="question3_2" name="question2" value="1" onchange="checkAnswers()"></td>
           </tr>
           <tr>
-            <td><img src="https://recallstudy.s3.us-east-2.amazonaws.com/Amazon.png" height="50px"></img></td>
+            <td><img src="${logo_3}"></img></td>
             <td onclick="question4_1.checked = true"><input type="radio" required id="question4_1" name="question3" value="0" onchange="checkAnswers()"></td>
             <td onclick="question4_2.checked = true"><input type="radio" required id="question4_2" name="question3" value="1" onchange="checkAnswers()"></td>
           </tr>
-        </table><br>
-      <button onclick="next()" class="button">Start</button>
+          <tr>
+            <td><img src="${logo_4}"></img></td>
+            <td onclick="question5_1.checked = true"><input type="radio" required id="question5_1" name="question4" value="0" onchange="checkAnswers()"></td>
+            <td onclick="question5_2.checked = true"><input type="radio" required id="question5_2" name="question4" value="1" onchange="checkAnswers()"></td>
+          </tr>
+          <tr>
+            <td><img src="${logo_5}"></img></td>
+            <td onclick="question6_1.checked = true"><input type="radio" required id="question6_1" name="question5" value="0" onchange="checkAnswers()"></td>
+            <td onclick="question6_2.checked = true"><input type="radio" required id="question6_2" name="question5" value="1" onchange="checkAnswers()"></td>
+          </tr>
+          <tr>
+            <td><img src="${logo_6}"></img></td>
+            <td onclick="question7_1.checked = true"><input type="radio" required id="question7_1" name="question6" value="0" onchange="checkAnswers()"></td>
+            <td onclick="question7_2.checked = true"><input type="radio" required id="question7_2" name="question6" value="1" onchange="checkAnswers()"></td>
+          </tr>
+          <tr>
+            <td><img src="${logo_7}"></img></td>
+            <td onclick="question8_1.checked = true"><input type="radio" required id="question8_1" name="question7" value="0" onchange="checkAnswers()"></td>
+            <td onclick="question8_2.checked = true"><input type="radio" required id="question8_2" name="question7" value="1" onchange="checkAnswers()"></td>
+          </tr>
+          <tr>
+            <td><img src="${logo_8}"></img></td>
+            <td onclick="question9_1.checked = true"><input type="radio" required id="question9_1" name="question8" value="0" onchange="checkAnswers()"></td>
+            <td onclick="question9_2.checked = true"><input type="radio" required id="question9_2" name="question8" value="1" onchange="checkAnswers()"></td>
+          </tr>
+          <tr>
+            <td><img src="${logo_9}"></img></td>
+            <td onclick="question10_1.checked = true"><input type="radio" required id="question10_1" name="question9" value="0" onchange="checkAnswers()"></td>
+            <td onclick="question10_2.checked = true"><input type="radio" required id="question10_2" name="question9" value="1" onchange="checkAnswers()"></td>
+          </tr>
+          <tr>
+            <td><img src="${logo_10}"></img></td>
+            <td onclick="question11_1.checked = true"><input type="radio" required id="question11_1" name="question10" value="0" onchange="checkAnswers()"></td>
+            <td onclick="question11_2.checked = true"><input type="radio" required id="question11_2" name="question10" value="1" onchange="checkAnswers()"></td>
+          </tr>
+          <tr>
+            <td><img src="${logo_11}"></img></td>
+            <td onclick="question12_1.checked = true"><input type="radio" required id="question12_1" name="question11" value="0" onchange="checkAnswers()"></td>
+            <td onclick="question12_2.checked = true"><input type="radio" required id="question12_2" name="question11" value="1" onchange="checkAnswers()"></td>
+          </tr>
+          <tr>
+            <td><img src="${logo_12}"></img></td>
+            <td onclick="question13_1.checked = true"><input type="radio" required id="question13_1" name="question12" value="0" onchange="checkAnswers()"></td>
+            <td onclick="question13_2.checked = true"><input type="radio" required id="question13_2" name="question12" value="1" onchange="checkAnswers()"></td>
+          </tr>
+          <tr>
+            <td><img src="${logo_13}"></img></td>
+            <td onclick="question14_1.checked = true"><input type="radio" required id="question14_1" name="question13" value="0" onchange="checkAnswers()"></td>
+            <td onclick="question14_2.checked = true"><input type="radio" required id="question14_2" name="question13" value="1" onchange="checkAnswers()"></td>
+          </tr>
+          <tr>
+            <td><img src="${logo_14}"></img></td>
+            <td onclick="question15_1.checked = true"><input type="radio" required id="question15_1" name="question14" value="0" onchange="checkAnswers()"></td>
+            <td onclick="question15_2.checked = true"><input type="radio" required id="question15_2" name="question14" value="1" onchange="checkAnswers()"></td>
+          </tr>
+          <tr>
+            <td><img src="${logo_15}"></img></td>
+            <td onclick="question16_1.checked = true"><input type="radio" required id="question16_1" name="question15" value="0" onchange="checkAnswers()"></td>
+            <td onclick="question16_2.checked = true"><input type="radio" required id="question16_2" name="question15" value="1" onchange="checkAnswers()"></td>
+          </tr>
+          <tr>
+            <td><img src="${logo_16}"></img></td>
+            <td onclick="question17_1.checked = true"><input type="radio" required id="question17_1" name="question16" value="0" onchange="checkAnswers()"></td>
+            <td onclick="question17_2.checked = true"><input type="radio" required id="question17_2" name="question16" value="1" onchange="checkAnswers()"></td>
+          </tr>
+          <tr>
+            <td><img src="${logo_17}"></img></td>
+            <td onclick="question18_1.checked = true"><input type="radio" required id="question18_1" name="question17" value="0" onchange="checkAnswers()"></td>
+            <td onclick="question18_2.checked = true"><input type="radio" required id="question18_2" name="question17" value="1" onchange="checkAnswers()"></td>
+          </tr>
+          <tr>
+            <td><img src="${logo_18}"></img></td>
+            <td onclick="question19_1.checked = true"><input type="radio" required id="question19_1" name="question18" value="0" onchange="checkAnswers()"></td>
+            <td onclick="question19_2.checked = true"><input type="radio" required id="question19_2" name="question18" value="1" onchange="checkAnswers()"></td>
+          </tr>
+          <tr>
+            <td><img src="${logo_19}"></img></td>
+            <td onclick="question20_1.checked = true"><input type="radio" required id="question20_1" name="question19" value="0" onchange="checkAnswers()"></td>
+            <td onclick="question20_2.checked = true"><input type="radio" required id="question20_2" name="question19" value="1" onchange="checkAnswers()"></td>
+          </tr>
+        </table>
+        <input type="submit" value="Submit" disabled="true">
     </div>
 </body>
 </html>
