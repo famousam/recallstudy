@@ -82,8 +82,19 @@
             let currentPage = 0;  // start at the first page
 
 window.onload = function() {
-  // only enable or disable the button of the current page on load
-  checkAnswers(currentPage);
+  let pages = document.getElementsByClassName('page');
+  pages[currentPage].style.display = 'block';  // display the first page
+  checkAnswers(currentPage);  // check the answers on the first page
+
+  // add event listeners for each radio button on each page
+  for (let i = 0; i < pages.length; i++) {
+    let radios = pages[i].getElementsByTagName('input');
+    for (let j = 0; j < radios.length; j++) {
+      if (radios[j].type === 'radio') {
+        radios[j].addEventListener('change', function() { checkAnswers(i); });
+      }
+    }
+  }
 };
 
 function checkAnswers(pageNumber) {
@@ -130,8 +141,6 @@ function nextPage() {
   // If there's a next page, show it. Otherwise, redirect to a new page.
   if (currentPage < pages.length) {
     pages[currentPage].style.display = 'block';  // show next page
-    // only enable or disable the button of the next page
-    checkAnswers(currentPage);
   } else {
     window.location.href = "next_page.html";
   }
@@ -237,40 +246,40 @@ function nextPage() {
       <label onclick="colorblindness_2.checked = true">No</label><br><br>
 
       <p>How often are you using social media:</p>
-      <input type="radio" required id="social_media_usage_1" name="social_media_usage" value="1">
+      <input type="radio" required id="social_media_usage_1" name="social_media_usage" value="1" onchange="checkAnswers()">
       <label onclick="social_media_usage_1.checked = true">Never</label>
-      <input type="radio" required id="social_media_usage_2" name="social_media_usage" value="2">
+      <input type="radio" required id="social_media_usage_2" name="social_media_usage" value="2" onchange="checkAnswers()">
       <label onclick="social_media_usage_2.checked = true">Less than once daily</label>
-      <input type="radio" required id="social_media_usage_3" name="social_media_usage" value="3">
+      <input type="radio" required id="social_media_usage_3" name="social_media_usage" value="3" onchange="checkAnswers()">
       <label onclick="social_media_usage_3.checked = true">About once daily</label>
-      <input type="radio" required id="social_media_usage_4" name="social_media_usage" value="4">
+      <input type="radio" required id="social_media_usage_4" name="social_media_usage" value="4" onchange="checkAnswers()">
       <label onclick="social_media_usage_4.checked = true">Several times daily</label>
-      <input type="radio" required id="social_media_usage_5" name="social_media_usage" value="5">
+      <input type="radio" required id="social_media_usage_5" name="social_media_usage" value="5" onchange="checkAnswers()">
       <label onclick="social_media_usage_5.checked = true">Many times daily</label>
-      <input type="radio" required id="social_media_usage_6" name="social_media_usage" value="6">
+      <input type="radio" required id="social_media_usage_6" name="social_media_usage" value="6" onchange="checkAnswers()">
       <label onclick="social_media_usage_6.checked = true">All day long</label><br><br>
 
       <p>Are you using Instagram:</p>
-      <input type="radio" required id="instagram_usage_1" name="instagram_usage" value="1">
+      <input type="radio" required id="instagram_usage_1" name="instagram_usage" value="1" onchange="checkAnswers()">
       <label onclick="instagram_usage_1.checked = true">Never</label>
-      <input type="radio" required id="instagram_usage_2" name="instagram_usage" value="2">
+      <input type="radio" required id="instagram_usage_2" name="instagram_usage" value="2" onchange="checkAnswers()">
       <label onclick="instagram_usage_2.checked = true">Only a few time daily</label>
-      <input type="radio" required id="instagram_usage_3" name="instagram_usage" value="3">
+      <input type="radio" required id="instagram_usage_3" name="instagram_usage" value="3" onchange="checkAnswers()">
       <label onclick="instagram_usage_3.checked = true">Many times daily</label>
-      <input type="radio" required id="instagram_usage_4" name="instagram_usage" value="4">
+      <input type="radio" required id="instagram_usage_4" name="instagram_usage" value="4" onchange="checkAnswers()">
       <label onclick="instagram_usage_4.checked = true">All day long</label>
 
 
       <p>When purchasing, I focus mainly on the brand.</p>
-      <input type="radio" required id="brand_focus_1" name="brand_focus" value="1">
+      <input type="radio" required id="brand_focus_1" name="brand_focus" value="1" onchange="checkAnswers()">
       <label onclick="brand_focus_1.checked = true">Strongly disagree</label>
-      <input type="radio" required id="brand_focus_2" name="brand_focus" value="2">
+      <input type="radio" required id="brand_focus_2" name="brand_focus" value="2" onchange="checkAnswers()">
       <label onclick="brand_focus_2.checked = true">&nbsp;</label>
-      <input type="radio" required id="brand_focus_3" name="brand_focus" value="3">
+      <input type="radio" required id="brand_focus_3" name="brand_focus" value="3" onchange="checkAnswers()">
       <label onclick="brand_focus_3.checked = true">&nbsp;</label>
-      <input type="radio" required id="brand_focus_4" name="brand_focus" value="4">
+      <input type="radio" required id="brand_focus_4" name="brand_focus" value="4" onchange="checkAnswers()">
       <label onclick="brand_focus_4.checked = true">&nbsp;</label>
-      <input type="radio" required id="brand_focus_5" name="brand_focus" value="5">
+      <input type="radio" required id="brand_focus_5" name="brand_focus" value="5" onchange="checkAnswers()">
       <label onclick="brand_focus_5.checked = true">strongly agree</label>
 
       <button class="button" style="margin: 0 auto;display: block;" disabled>Continue with questionaire</button>
