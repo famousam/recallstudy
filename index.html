@@ -102,55 +102,90 @@
                   }
               }      
           }
-          function checkAnswers() {
-            let allAnswered = true;
-            let currentInputs = document.querySelectorAll(`.page${currentPage} input[type="radio"]`);
-            let questionNames = new Set();
-            let answeredQuestions = new Set();
+//           function checkAnswers() {
+//             let allAnswered = true;
+//             let currentInputs = document.querySelectorAll(`.page${currentPage} input[type="radio"]`);
+//             let questionNames = new Set();
+//             let answeredQuestions = new Set();
 
-            for (let i = 0; i < currentInputs.length; i++) {
-                questionNames.add(currentInputs[i].name);
-                if (currentInputs[i].checked) {
-                    answeredQuestions.add(currentInputs[i].name);
-                }
-            }
+//             for (let i = 0; i < currentInputs.length; i++) {
+//                 questionNames.add(currentInputs[i].name);
+//                 if (currentInputs[i].checked) {
+//                     answeredQuestions.add(currentInputs[i].name);
+//                 }
+//             }
 
-            allAnswered = questionNames.size === answeredQuestions.size;
+//             allAnswered = questionNames.size === answeredQuestions.size;
 
-            let button = document.querySelector(`.page${currentPage} .button`);
-            if (allAnswered) {
-                button.disabled = false;
-            } else {
-                button.disabled = true;
-            }
+//             let button = document.querySelector(`.page${currentPage} .button`);
+//             if (allAnswered) {
+//                 button.disabled = false;
+//             } else {
+//                 button.disabled = true;
+//             }
+//         }
+//         window.onload = function() {
+//             let pages = document.getElementsByClassName('page');
+//             let buttons = document.getElementsByClassName('button');
+//             let radios = document.getElementsByClassName('radio');
+
+//             for (let i = 0; i < pages.length; i++) {
+//                 for (let j = 0; j < radios.length; j++) {
+//                     radios[j].onclick = function() {
+//                         checkAllRadioButtons(pages[i], buttons[i]);
+//                     };
+//                 }
+//             }
+//         }
+
+//         function checkAllRadioButtons(page, button) {
+//             let radios = page.getElementsByTagName('input');
+//             let allChecked = true;
+
+//             for (let i = 0; i < radios.length; i++) {
+//                 if (radios[i].type === 'radio' && !radios[i].checked) {
+//                     allChecked = false;
+//                     break;
+//                 }
+//             }
+
+//             button.disabled = !allChecked;
+//         }
+            let currentPage = 0;
+let pages = Array.from(document.getElementsByClassName('page'));
+let nextButtons = Array.from(document.getElementsByClassName('nextBtn'));
+
+// Event listener for radio buttons
+Array.from(document.getElementsByClassName('radio')).forEach(radio => {
+    radio.addEventListener('change', () => {
+        let parentPage = radio.closest('.page');
+        let parentPageIndex = pages.indexOf(parentPage);
+        let questions = Array.from(parentPage.getElementsByClassName('question'));
+        
+        // Check if all questions in the page have been answered
+        let allAnswered = questions.every(question => {
+            return Array.from(question.getElementsByClassName('radio')).some(r => r.checked);
+        });
+
+        if (allAnswered) {
+            nextButtons[parentPageIndex].disabled = false;
         }
-        window.onload = function() {
-            let pages = document.getElementsByClassName('page');
-            let buttons = document.getElementsByClassName('button');
-            let radios = document.getElementsByClassName('radio');
+    });
+});
 
-            for (let i = 0; i < pages.length; i++) {
-                for (let j = 0; j < radios.length; j++) {
-                    radios[j].onclick = function() {
-                        checkAllRadioButtons(pages[i], buttons[i]);
-                    };
-                }
-            }
+// Event listener for next buttons
+nextButtons.forEach((button, index) => {
+    button.addEventListener('click', () => {
+        if (index < pages.length - 1) {
+            pages[index].style.display = 'none';
+            pages[index + 1].style.display = 'block';
+            window.scrollTo(0, 0);
+        } else {
+            // If it's the last page, redirect to the next page
+            window.location.href = "next_page.html";
         }
-
-        function checkAllRadioButtons(page, button) {
-            let radios = page.getElementsByTagName('input');
-            let allChecked = true;
-
-            for (let i = 0; i < radios.length; i++) {
-                if (radios[i].type === 'radio' && !radios[i].checked) {
-                    allChecked = false;
-                    break;
-                }
-            }
-
-            button.disabled = !allChecked;
-        }
+    });
+});
         </script>
 </head>
     
