@@ -186,56 +186,103 @@
 //         }
 //     });
 // });
-        // Function to check if all radio groups in a page have a selected value
-function allAnswered(page) {
-    let radios = Array.from(page.querySelectorAll('input[type="radio"]'));
-    let radioGroups = new Set(radios.map(radio => radio.name));
+//         // Function to check if all radio groups in a page have a selected value
+// function allAnswered(page) {
+//     let radios = Array.from(page.querySelectorAll('input[type="radio"]'));
+//     let radioGroups = new Set(radios.map(radio => radio.name));
     
-    for (let groupName of radioGroups) {
-        let groupRadios = radios.filter(radio => radio.name === groupName);
-        if (!groupRadios.some(radio => radio.checked)) {
-            return false;
-        }
-    }
-    return true;
-}
+//     for (let groupName of radioGroups) {
+//         let groupRadios = radios.filter(radio => radio.name === groupName);
+//         if (!groupRadios.some(radio => radio.checked)) {
+//             return false;
+//         }
+//     }
+//     return true;
+// }
 
-let pages = Array.from(document.getElementsByClassName('page'));
-let buttons = Array.from(document.getElementsByClassName('button'));
+// let pages = Array.from(document.getElementsByClassName('page'));
+// let buttons = Array.from(document.getElementsByClassName('button'));
 
-// Initialize buttons
-buttons.forEach((button, index) => {
-    button.disabled = !allAnswered(pages[index]);
-});
+// // Initialize buttons
+// buttons.forEach((button, index) => {
+//     button.disabled = !allAnswered(pages[index]);
+// });
 
-// Event listener for radio buttons
-Array.from(document.querySelectorAll('input[type="radio"]')).forEach(radio => {
-    radio.addEventListener('change', () => {
-        let parentPage = radio.closest('.page');
-        let parentPageIndex = pages.indexOf(parentPage);
+// // Event listener for radio buttons
+// Array.from(document.querySelectorAll('input[type="radio"]')).forEach(radio => {
+//     radio.addEventListener('change', () => {
+//         let parentPage = radio.closest('.page');
+//         let parentPageIndex = pages.indexOf(parentPage);
         
-        buttons[parentPageIndex].disabled = !allAnswered(parentPage);
-    });
-});
+//         buttons[parentPageIndex].disabled = !allAnswered(parentPage);
+//     });
+// });
 
-// Event listener for buttons
-buttons.forEach((button, index) => {
-    button.addEventListener('click', () => {
-        if (index < pages.length - 1) {
-            pages[index].style.display = 'none';
-            pages[index + 1].style.display = 'block';
-            window.scrollTo(0, 0);
-        } else {
-            // If it's the last page, redirect to the next page
-            window.location.href = "next_page.html";
+// // Event listener for buttons
+// buttons.forEach((button, index) => {
+//     button.addEventListener('click', () => {
+//         if (index < pages.length - 1) {
+//             pages[index].style.display = 'none';
+//             pages[index + 1].style.display = 'block';
+//             window.scrollTo(0, 0);
+//         } else {
+//             // If it's the last page, redirect to the next page
+//             window.location.href = "next_page.html";
+//         }
+//     });
+// });
+         function checkAnswers() {
+            let pages = document.getElementsByClassName('page');
+            let currentPage = document.querySelector('.page.show');
+            let currentButton = currentPage.querySelector('.button');
+            let inputs = currentPage.getElementsByTagName('input');
+            let allAnswered = true;
+
+            for (let input of inputs) {
+                if (input.type === 'radio') {
+                    let name = input.name;
+                    let checked = currentPage.querySelector(`input[name="${name}"]:checked`);
+                    if (!checked) {
+                        allAnswered = false;
+                        break;
+                    }
+                }
+            }
+
+            currentButton.disabled = !allAnswered;
         }
-    });
-});
+        function next() {
+            let pages = Array.from(document.getElementsByClassName('page'));
+            let currentPageIndex = pages.findIndex(page => page.classList.contains('show'));
+
+            if (currentPageIndex >= 0 && currentPageIndex < pages.length - 1) {
+                pages[currentPageIndex].classList.remove('show');
+                pages[currentPageIndex].classList.add('hide');
+                pages[currentPageIndex + 1].classList.remove('hide');
+                pages[currentPageIndex + 1].classList.add('show');
+                pages[currentPageIndex + 1].querySelector('.button').disabled = true;
+            }
+        }
+
+        window.onload = function() {
+            let radios = document.getElementsByTagName('input');
+            for (let radio of radios) {
+                if (radio.type === 'radio') {
+                    radio.onchange = checkAnswers;
+                }
+            }
+
+            let buttons = document.getElementsByClassName('button');
+            for (let button of buttons) {
+                button.onclick = next;
+                button.disabled = true;
+            }
+        };
         </script>
 </head>
     
 <body>
-    <div id="i0">
+    <div id="i0" class="page show">
        Thank you for participating in our online experience.<br>
        This is a <b>multi-page-survey</b>! You need to scroll down all the way to click on "next" to go to the next page until you can click on the "submit" button to finish the task.<br>
       <p>  
@@ -244,7 +291,7 @@ buttons.forEach((button, index) => {
       <button class="button">Start</button>
 
     </div>
-    <div id="i1" style="display: none" class="page page1">
+    <div id="i1" style="display: none" class="page hide">
         <div class="phone_outer">
          <div class="phone">
             <div class="phone_inner">
@@ -313,7 +360,7 @@ buttons.forEach((button, index) => {
           </div>
         </div>
     </div>
-    <div id="q_demographics"  style="display: none" class="page page2">
+    <div id="q_demographics"  style="display: none" class="page hide">
       <h2>Please give us a little background about yourself</h2>
       <p>What is your gender?</p>
       <input type="radio" required id="gender_1" name="gender" value="1">
@@ -368,9 +415,9 @@ buttons.forEach((button, index) => {
       <input type="radio" required id="brand_focus_5" name="brand_focus" value="5">
       <label onclick="brand_focus_5.checked = true">strongly agree</label>
 
-      <button onclick="next()" class="button" style="margin: 0 auto;display: block;" disabled>Continue with questionaire</button>
+      <button class="button" style="margin: 0 auto;display: block;" disabled>Continue with questionaire</button>
     </div>
-    <div id="att0"  style="display: none" class="page page3">
+    <div id="att0"  style="display: none" class="page  hide">
         <h2>Study Background</h2><br>
        In this study, we want to understand how you recall brand elements. As an example you see this picture of an <b>amazon</b> and a <b>Disney</b> logo.<br>
       <p>  
@@ -379,7 +426,7 @@ buttons.forEach((button, index) => {
       <img src="https://recallstudy.s3.us-east-2.amazonaws.com/amazon_disney.jpg"></img><br>
       <button onclick="next()" class="button">Start</button>
     </div>
-    <div id="att1"  style="display: none" class="page page4">
+    <div id="att1"  style="display: none" class="page  hide">
       <h2>Write down the two brand that you have seen on the previous image with a comma between them.<br>
        <b>Attention:</b> Please consider each brand carefully. Your payment will based on plausible responses. </h2>
       <p>  
@@ -388,7 +435,7 @@ buttons.forEach((button, index) => {
       </textarea><br>
       <button onclick="next()" class="button">Start</button>
     </div>
-    <div id="att2"  style="display: none" class="page page5">
+    <div id="att2"  style="display: none" class="page  hide">
       <h2>Have you seen any of these brand logos on the previous image?<br>
        <b>Attention:</b> Please consider each brand carefully. Your payment will based on plausible responses. </h2>
       <p>  
@@ -421,7 +468,7 @@ buttons.forEach((button, index) => {
         </table><br>
       <button onclick="next()" class="button" disabled>Start</button>
     </div>
-    <div id="q_text"  style="display: none" class="page page6">
+    <div id="q_text"  style="display: none" class="page  hide">
       <h2>Write down all brands that you have seen in the previous Instagram feed with a comma between them.<br>
        <b>Attention:</b> Please consider each brand carefully. Your payment will based on plausible responses. </h2>
       <p>  
@@ -430,7 +477,7 @@ buttons.forEach((button, index) => {
       </textarea><br>
       <button onclick="next()" class="button">Start</button>
     </div>
-    <div id="q_radio" style="display: none" class="page page7">
+    <div id="q_radio" style="display: none" class="page hide">
           <h2>Have you seen any of these brand logos in the previous Instagram feed?
         <b>Attention:</b> Please consider each brand carefully. Your payment will based on plausible responses. </h2>
 
