@@ -9,19 +9,110 @@
             font-family: Arial, sans-serif;
         }
     </style>
+    <style type="text/css">
+            font-size: 20px;
+            table {
+          font-family: arial, sans-serif;
+          border-collapse: collapse;
+          width: 100%;
+        }
+
+        td, th {
+          border: 1px solid #dddddd;
+          text-align: left;
+          padding: 8px;
+          font-size: 20px;
+        }
+
+        tr:nth-child(even) {
+          background-color: #dddddd;
+        }
+            .div { font-size: 3vw;}
+          .button {
+            background-color: #4CAF50; /* Green */
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 24px;
+          }
+            .phone {
+              border: 0px;
+              background-image: url('https://instaimagessurvey.s3.us-east-2.amazonaws.com/insta_bg_new.gif');
+              /*background-size: contain;*/
+              background-size: cover;
+              /*max-width: 300px;*/
+              /*max-height: 100%;*/
+              height: 95vh;
+              width: 44vh;
+              max-width: 100%;
+              max-height: 100%;
+              /*overflow: auto;*/
+
+          }
+          .phone_inner {
+          /*padding: 50px;*/
+          /*margin: 50px;*/
+          background: transparent;
+          box-sizing: border-box;
+          resize: horizontal;
+          /*border: solid rgba(255,255,255,0) ;*/
+          border-top: 13.5vh solid rgba(255,255,255,0);
+          border-bottom: 10vh  solid rgba(255,255,255,0);
+          border-left: 2vh solid rgba(255,255,255,0);
+          border-right: 2vh  solid rgba(255,255,255,0);
+          overflow: auto;
+          /*width: 100%;*/
+          /*height: 800px;*/
+
+
+          height: 100vh;
+          max-height: 100%;
+        }
+        .phone_outer {
+          width: 44vh;
+          /*padding-bottom: 48%;*/
+          background: white; /** <-- For the demo **/
+          height: 95vh;
+        }
+          </style>
+        <script type="text/javascript">var showing = [1, 0, 0, 0, 0, 0];
+          var questions = ['i0', 'i1', 'q_demographics', 'att0', 'att1', 'att2'];
+          function next() {
+              var qElems = [];
+              for (var i = 0; i < questions.length; i++) {
+                  qElems.push(document.getElementById(questions[i]));   
+              }
+              for (var i = 0; i < showing.length; i++) {
+                  if (showing[i] == 1) {
+                      qElems[i].style.display = 'none';
+                      showing[i] = 0;
+                      if (i == showing.length - 1) {
+                          qElems[0].style.display = 'block';
+                          // showing[0] = 1;
+                          document.getElementById('next').style.display = 'none';
+                      } else {
+                          qElems[i + 1].style.display = 'block';
+                          showing[i + 1] = 1;
+                      }
+                      break;
+                  }
+              }      
+          }
+        </script>
 </head>
     
 <body>
-    <div id="intro">
-        
-        <h1>Welcome to Our Survey</h1>
-        <p>
-            Thank you for participating in our survey. The survey consists of several pages. In the next page, you'll be presented with an Instagram feed. On the bottom of each page there is a 'next' button. On the last page is a 'submit' button, afterwards you receive the verification code.
-        </p>
-        <p>
-            Please scroll through it as you would do normally. Later pages will ask you about your experience. Your participation is very important to us.
-        </p>
-        <button onclick="next()" class="button" style="margin: 0 auto;display: block;">Start survey</button><br><br>
+    <div id="i0">
+       Thank you for participating in our online experience.<br>
+       This is a <b>multi-page-survey</b>! You need to scroll down all the way to click on "next" to go to the next page until you can click on the "submit" button to finish the task.<br>
+      <p>  
+      On the next page you should look at a number of images that look like posts on the social media platform Instagram.<br>
+      Please look at all the images when you scroll down - you will find a "next" button on the very bottom. You will be asked a number of questions about these images on the following pages.</p>
+      <button onclick="next()" class="button">Start</button>
+
     </div>
     <div id="i1" style="display: none">
         <div class="phone_outer">
@@ -90,7 +181,7 @@
               <button onclick="next()" class="button" style="margin: 0 auto;display: block;">Start questionaire</button><br><br>
             </div>
           </div>
-          </div>
+        </div>
     </div>
     <div id="q_demographics"  style="display: none">
       <h2>Please give us a little background about yourself</h2>
@@ -148,6 +239,57 @@
       <label onclick="brand_focus_5.checked = true">strongly agree</label>
 
       <button onclick="next()" class="button" style="margin: 0 auto;display: block;">Continue with questionaire</button>
+    </div>
+    <div id="att0"  style="display: none">
+        <h2>Study Background</h2><br>
+       In this study, we want to understand how you recall brand elements. As an example you see this picture of an <b>amazon</b> and a <b>Disney</b> logo.<br>
+      <p>  
+      On the next pages you should remember that you did see <b>amazon</b> and a <b>Disney</b>.<br>
+      You will be asked to input these two brands in textfield and then get asked with <b>yes/no</b> questions if you have seen these and other brands on the below image.<br></p>
+      <img src="https://recallstudy.s3.us-east-2.amazonaws.com/amazon_disney.jpg"></img>
+      <button onclick="next()" class="button">Start</button>
+    </div>
+    <div id="att1"  style="display: none">
+      <h2>Brand Recall Last Image</h2><br>
+       Please write both brands seen on the last image in the below text field and separate them by a comma.<br>
+      <p>  
+      <textarea rows = "5" cols = "60" name = "description">
+            Enter brands seen on last image comma-separted here...
+      </textarea><br>
+      <button onclick="next()" class="button">Start</button>
+    </div>
+    <div id="att2"  style="display: none">
+      <h2>Brand Recall Last Image</h2><br>
+       Please write both brands seen on the last page in the below text field and separate them by a comma.<br>
+      <p>  
+      <table>
+          <tr>
+            <th width="50%">&nbsp;</th>
+            <th width="25%">Yes</th>
+            <th width="25%">No</th>
+          </tr>
+          <tr>
+            <td><img src="https://recallstudy.s3.us-east-2.amazonaws.com/Disney.png"></img></td>
+            <td onclick="question1_1.checked = true"><input type="radio" required id="question1_1" name="question0" value="0"></td>
+            <td onclick="question1_2.checked = true"><input type="radio" required id="question1_2" name="question0" value="1"></td>
+          </tr>
+          <tr>
+            <td><img src="https://recallstudy.s3.us-east-2.amazonaws.com/Microsoft_29.png"></img></td>
+            <td onclick="question2_1.checked = true"><input type="radio" required id="question2_1" name="question1" value="0"></td>
+            <td onclick="question2_2.checked = true"><input type="radio" required id="question2_2" name="question1" value="1"></td>
+          </tr>
+          <tr>
+            <td><img src="https://recallstudy.s3.us-east-2.amazonaws.com/Tesla_Motors.png"></img></td>
+            <td onclick="question3_1.checked = true"><input type="radio" required id="question3_1" name="question2" value="0"></td>
+            <td onclick="question3_2.checked = true"><input type="radio" required id="question3_2" name="question2" value="1"></td>
+          </tr>
+          <tr>
+            <td><img src="https://recallstudy.s3.us-east-2.amazonaws.com/Amazon.png"></img></td>
+            <td onclick="question4_1.checked = true"><input type="radio" required id="question4_1" name="question3" value="0"></td>
+            <td onclick="question4_2.checked = true"><input type="radio" required id="question4_2" name="question3" value="1"></td>
+          </tr>
+        </table><br>
+      <button onclick="next()" class="button">Start</button>
     </div>
 </body>
 </html>
