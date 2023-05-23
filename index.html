@@ -278,61 +278,118 @@
 //                 button.disabled = true;
 //             }
 //         };
-        let currentPage = 0;  // start at the first page
+//         let currentPage = 0;  // start at the first page
+
+// window.onload = function() {
+//   checkAnswers();  // call this function to initialize button states on load
+// };
+
+// function checkAnswers() {
+//   let pages = document.getElementsByClassName('page');
+//   for (let i = 0; i < pages.length; i++) {
+//     let radios = pages[i].getElementsByTagName('input');
+//     let allAnswered = true;
+//     let groupedRadios = {};
+
+//     // group radio buttons by their name attribute
+//     for (let j = 0; j < radios.length; j++) {
+//       if (radios[j].type === 'radio') {
+//         if (!groupedRadios[radios[j].name]) {
+//           groupedRadios[radios[j].name] = [];
+//         }
+//         groupedRadios[radios[j].name].push(radios[j]);
+//       }
+//     }
+
+//     // check if all radio button groups have at least one button selected
+//     for (let groupName in groupedRadios) {
+//       let groupAnswered = false;
+//       for (let k = 0; k < groupedRadios[groupName].length; k++) {
+//         if (groupedRadios[groupName][k].checked) {
+//           groupAnswered = true;
+//           break;
+//         }
+//       }
+//       if (!groupAnswered) {
+//         allAnswered = false;
+//         break;
+//       }
+//     }
+
+//     // enable or disable the button based on whether all questions were answered
+//     let button = document.getElementsByClassName('button')[i];
+//     button.disabled = !allAnswered;
+//   }
+// }
+
+// function nextPage() {
+//   let pages = document.getElementsByClassName('page');
+//   let button = document.getElementsByClassName('button')[currentPage];
+//   pages[currentPage].style.display = 'none';  // hide current page
+//   currentPage++;  // move to next page
+
+//   // If there's a next page, show it. Otherwise, redirect to a new page.
+//   if (currentPage < pages.length) {
+//     pages[currentPage].style.display = 'block';  // show next page
+//     button = document.getElementsByClassName('button')[currentPage];
+//     button.disabled = true;  // disable the button on the next page until all questions are answered
+//   } else {
+//     window.location.href = "next_page.html";
+//   }
+// }
+            let currentPage = 0;  // start at the first page
 
 window.onload = function() {
-  checkAnswers();  // call this function to initialize button states on load
+  // only enable or disable the button of the current page on load
+  checkAnswers(currentPage);
 };
 
-function checkAnswers() {
+function checkAnswers(pageNumber) {
   let pages = document.getElementsByClassName('page');
-  for (let i = 0; i < pages.length; i++) {
-    let radios = pages[i].getElementsByTagName('input');
-    let allAnswered = true;
-    let groupedRadios = {};
+  let radios = pages[pageNumber].getElementsByTagName('input');
+  let allAnswered = true;
+  let groupedRadios = {};
 
-    // group radio buttons by their name attribute
-    for (let j = 0; j < radios.length; j++) {
-      if (radios[j].type === 'radio') {
-        if (!groupedRadios[radios[j].name]) {
-          groupedRadios[radios[j].name] = [];
-        }
-        groupedRadios[radios[j].name].push(radios[j]);
+  // group radio buttons by their name attribute
+  for (let j = 0; j < radios.length; j++) {
+    if (radios[j].type === 'radio') {
+      if (!groupedRadios[radios[j].name]) {
+        groupedRadios[radios[j].name] = [];
       }
+      groupedRadios[radios[j].name].push(radios[j]);
     }
+  }
 
-    // check if all radio button groups have at least one button selected
-    for (let groupName in groupedRadios) {
-      let groupAnswered = false;
-      for (let k = 0; k < groupedRadios[groupName].length; k++) {
-        if (groupedRadios[groupName][k].checked) {
-          groupAnswered = true;
-          break;
-        }
-      }
-      if (!groupAnswered) {
-        allAnswered = false;
+  // check if all radio button groups have at least one button selected
+  for (let groupName in groupedRadios) {
+    let groupAnswered = false;
+    for (let k = 0; k < groupedRadios[groupName].length; k++) {
+      if (groupedRadios[groupName][k].checked) {
+        groupAnswered = true;
         break;
       }
     }
-
-    // enable or disable the button based on whether all questions were answered
-    let button = document.getElementsByClassName('button')[i];
-    button.disabled = !allAnswered;
+    if (!groupAnswered) {
+      allAnswered = false;
+      break;
+    }
   }
+
+  // enable or disable the button based on whether all questions were answered
+  let button = pages[pageNumber].getElementsByClassName('button')[0];
+  button.disabled = !allAnswered;
 }
 
 function nextPage() {
   let pages = document.getElementsByClassName('page');
-  let button = document.getElementsByClassName('button')[currentPage];
   pages[currentPage].style.display = 'none';  // hide current page
   currentPage++;  // move to next page
 
   // If there's a next page, show it. Otherwise, redirect to a new page.
   if (currentPage < pages.length) {
     pages[currentPage].style.display = 'block';  // show next page
-    button = document.getElementsByClassName('button')[currentPage];
-    button.disabled = true;  // disable the button on the next page until all questions are answered
+    // only enable or disable the button of the next page
+    checkAnswers(currentPage);
   } else {
     window.location.href = "next_page.html";
   }
