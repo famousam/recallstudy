@@ -78,89 +78,107 @@
           height: 95vh;
         }
           </style>
-    <script type="text/javascript">
-    window.onload = function() {
-        const pages = Array.from(document.getElementsByClassName('page'));
-        pages.forEach((page, index) => {
-            let button = page.querySelector('.button');
-            button.style.backgroundColor = 'gray';
-            button.onclick = function(event) {
-                event.preventDefault();
-                if (button.style.backgroundColor === 'green' || page.id === "q_text") {
-                    let redirect = false;
-                    if (page.id === "att2") {
-                        const att0Value = page.querySelector(`input[name="att_question0"]:checked`)?.value;
-                        const att1Value = page.querySelector(`input[name="att_question1"]:checked`)?.value;
-                        const att2Value = page.querySelector(`input[name="att_question2"]:checked`)?.value;
-                        const att3Value = page.querySelector(`input[name="att_question3"]:checked`)?.value;
-                        if (att0Value !== '0' || att1Value !== '2' || att2Value !== '2' || att3Value !== '0') {
-                            redirect = true;
-                        }
-                    }
-                    
-                    if (redirect) {
-                        window.location.href = 'attentioncheck_failure.html';
-                    } else if (pages[index + 1]) {
-                        page.style.display = 'none';
-                        pages[index + 1].style.display = 'block';
-                        // Check if next page needs focus in textarea
-                        let textarea = pages[index + 1]?.querySelector('textarea');
-                        if(textarea && (pages[index + 1].id === "att1" || pages[index + 1].id === "q_text")){
-                            textarea.focus();
-                        }
-                    } else {
-                        window.location.href = 'next_page.html';
-                    }
-                } else {
-                    if(page.id === "att1"){
-                        alert("Please make sure to write both 'disney' and 'amazon', separated by a comma.");
-                    }else{
-                        alert('Please answer all questions before proceeding');
-                    }
-                }
-            }
-    
-            let radioButtons = Array.from(page.getElementsByTagName('input')).filter(input => input.type === 'radio');
-            let radioNames = [...new Set(radioButtons.map(radio => radio.name))];
-            radioButtons.forEach(radio => radio.onchange = checkAnswers);
-            
-            let textarea = page.querySelector('textarea');
-            if(textarea){
-                textarea.oninput = checkAnswers;
-            }
-    
-            function checkAnswers() {
-                let allAnswered = true;
-                if(radioButtons.length > 0){
-                    allAnswered = radioNames.every(name => page.querySelector(`input[name=${name}]:checked`));
-                }
-    
-                if(textarea && page.id !== "q_text"){
-                    const inputText = textarea.value.toLowerCase();
-                    const words = inputText.split(',');
-                    const hasDisney = words.some(word => word.trim() === 'disney');
-                    const hasAmazon = words.some(word => word.trim() === 'amazon');
-                    allAnswered = hasDisney && hasAmazon;
-                }
-    
-                button.style.backgroundColor = allAnswered ? 'green' : 'gray';
-            }
-    
-            checkAnswers();
-        });
-    
-        // Initial focus on textarea if page is "att1" or "q_text"
-        let textarea = pages[0]?.querySelector('textarea');
-        if(textarea && (pages[0].id === "att1" || pages[0].id === "q_text")){
-            textarea.focus();
-        }
-        pages[0].style.display = 'block';
-    }
-    </script>
+<script type="text/javascript">
+  window.onload = function() {
+      const pages = Array.from(document.getElementsByClassName('page'));
+      pages.forEach((page, index) => {
+          let button = page.querySelector('.button');
+          button.style.backgroundColor = 'gray';
+          button.disabled = true;
+  
+          if (page.id !== "i1") {
+              button.disabled = false;
+          }
+  
+          button.onclick = function(event) {
+              event.preventDefault();
+              if ((button.style.backgroundColor === 'green' || page.id === "q_text") && !button.disabled) {
+                  let redirect = false;
+                  if (page.id === "att2") {
+                      const att0Value = page.querySelector(`input[name="att_question0"]:checked`)?.value;
+                      const att1Value = page.querySelector(`input[name="att_question1"]:checked`)?.value;
+                      const att2Value = page.querySelector(`input[name="att_question2"]:checked`)?.value;
+                      const att3Value = page.querySelector(`input[name="att_question3"]:checked`)?.value;
+                      if (att0Value !== '0' || att1Value !== '2' || att2Value !== '2' || att3Value !== '0') {
+                          redirect = true;
+                      }
+                  }
+                      
+                  if (redirect) {
+                      window.location.href = 'attentioncheck_failure.html';
+                  } else if (pages[index + 1]) {
+                      page.style.display = 'none';
+                      pages[index + 1].style.display = 'block';
+                      let textarea = pages[index + 1]?.querySelector('textarea');
+                      if(textarea && (pages[index + 1].id === "att1" || pages[index + 1].id === "q_text")){
+                          textarea.focus();
+                      }
+                  } else {
+                      window.location.href = 'next_page.html';
+                  }
+              } else {
+                  if(page.id === "att1"){
+                      alert("Please make sure to write both 'disney' and 'amazon', separated by a comma.");
+                  }else{
+                      alert('Please answer all questions before proceeding');
+                  }
+              }
+          }
+  
+          let radioButtons = Array.from(page.getElementsByTagName('input')).filter(input => input.type === 'radio');
+          let radioNames = [...new Set(radioButtons.map(radio => radio.name))];
+          radioButtons.forEach(radio => radio.onchange = checkAnswers);
+              
+          let textarea = page.querySelector('textarea');
+          if(textarea){
+              textarea.oninput = checkAnswers;
+          }
+  
+          function checkAnswers() {
+              let allAnswered = true;
+              if(radioButtons.length > 0){
+                  allAnswered = radioNames.every(name => page.querySelector(`input[name=${name}]:checked`));
+              }
+  
+              if(textarea && page.id !== "q_text"){
+                  const inputText = textarea.value.toLowerCase();
+                  const words = inputText.split(',');
+                  const hasDisney = words.some(word => word.trim() === 'disney');
+                  const hasAmazon = words.some(word => word.trim() === 'amazon');
+                  allAnswered = hasDisney && hasAmazon;
+              }
+  
+              if (!button.disabled) {
+                  button.style.backgroundColor = allAnswered ? 'green' : 'gray';
+              }
+          }
+  
+          if (page.id !== "i1") {
+              checkAnswers();
+          }
+  
+          if (page.id === "i1") {
+              setTimeout(() => {
+                  button.disabled = false;
+                  checkAnswers();
+              }, 10000);
+          }
+      });
+  
+      let textarea = pages[0]?.querySelector('textarea');
+      if(textarea && (pages[0].id === "att1" || pages[0].id === "q_text")){
+          textarea.focus();
+      }
+      pages[0].style.display = 'block';
+  }
+  </script>
+  
+
     
 </head>
     
 <body>
+  <form action="/action_page.php" method="get">
     <div id="i0" class="page show">
        Thank you for participating in our online experience.<br>
        This is a <b>multi-page-survey</b>! You need to scroll down all the way to click on "next" to go to the next page until you can click on the "submit" button to finish the task.<br>
@@ -279,20 +297,7 @@
       <input type="radio" required id="instagram_usage_3" name="instagram_usage" value="3">
       <label onclick="instagram_usage_3.click()">Many times daily</label>
       <input type="radio" required id="instagram_usage_4" name="instagram_usage" value="4">
-      <label onclick="instagram_usage_4.click()">All day long</label>
-
-
-      <p>When purchasing, I focus mainly on the brand.</p>
-      <input type="radio" required id="brand_focus_1" name="brand_focus" value="1">
-      <label onclick="brand_focus_1.click()">Strongly disagree</label>
-      <input type="radio" required id="brand_focus_2" name="brand_focus" value="2">
-      <label onclick="brand_focus_2.click()">&nbsp;</label>
-      <input type="radio" required id="brand_focus_3" name="brand_focus" value="3">
-      <label onclick="brand_focus_3.click()">&nbsp;</label>
-      <input type="radio" required id="brand_focus_4" name="brand_focus" value="4">
-      <label onclick="brand_focus_4.click()">&nbsp;</label>
-      <input type="radio" required id="brand_focus_5" name="brand_focus" value="5">
-      <label onclick="brand_focus_5.click()">strongly agree</label>
+      <label onclick="instagram_usage_4.click()">All day long</label><br>
 
       <!-- <button class="button" style="margin: 0 auto;display: block;" disabled>Continue with questionaire</button> -->
       <button class="button" style="margin: 0 auto;display: block;">Continue with questionnaire</button>
@@ -325,25 +330,25 @@
             <th width="20%">No, definitely not</th>
           </tr>
           <tr>
-            <td><img src="https://recallstudy.s3.us-east-2.amazonaws.com/Disney.png" height="50px"></img></td>
+            <td><img src="https://recallstudy.s3.us-east-2.amazonaws.com/Disney.png" height="70px"></img></td>
             <td onclick="att_question0_0.click()"><input type="radio" required id="att_question0_0" name="att_question0" value="0"></td>
             <td onclick="att_question0_1.click()"><input type="radio" required id="att_question0_1" name="att_question0" value="1"></td>
             <td onclick="att_question0_2.click()"><input type="radio" required id="att_question0_2" name="att_question0" value="2"></td>
           </tr>
           <tr>
-            <td><img src="https://recallstudy.s3.us-east-2.amazonaws.com/Microsoft_29.png" height="50px"></img></td>
+            <td><img src="https://recallstudy.s3.us-east-2.amazonaws.com/Microsoft_29.png" height="70px"></img></td>
             <td onclick="att_question1_0.click()"><input type="radio" required id="att_question1_0" name="att_question1" value="0"></td>
             <td onclick="att_question1_1.click()"><input type="radio" required id="att_question1_1" name="att_question1" value="1"></td>
             <td onclick="att_question1_2.click()"><input type="radio" required id="att_question1_2" name="att_question1" value="2"></td>
           </tr>
           <tr>
-            <td><img src="https://recallstudy.s3.us-east-2.amazonaws.com/Tesla-Logo-No-Background.png" height="50px"></img></td>
+            <td><img src="https://recallstudy.s3.us-east-2.amazonaws.com/Tesla-Logo-No-Background.png" height="70px"></img></td>
             <td onclick="att_question2_0.click()"><input type="radio" required id="att_question2_0" name="att_question2" value="0"></td>
             <td onclick="att_question2_1.click()"><input type="radio" required id="att_question2_1" name="att_question2" value="1"></td>
             <td onclick="att_question2_2.click()"><input type="radio" required id="att_question2_2" name="att_question2" value="2"></td>
           </tr>
           <tr>
-            <td><img src="https://recallstudy.s3.us-east-2.amazonaws.com/Amazon.png" height="50px"></img></td>
+            <td><img src="https://recallstudy.s3.us-east-2.amazonaws.com/Amazon.png" height="70px"></img></td>
             <td onclick="att_question3_0.click()"><input type="radio" required id="att_question3_0" name="att_question3" value="0"></td>
             <td onclick="att_question3_1.click()"><input type="radio" required id="att_question3_1" name="att_question3" value="1"></td>
             <td onclick="att_question3_2.click()"><input type="radio" required id="att_question3_2" name="att_question3" value="2"></td>
@@ -370,121 +375,121 @@
             <th width="20%">No, definitely not</th>
           </tr>
           <tr>
-            <td><img src="https://recallstudy.s3.us-east-2.amazonaws.com/logo_72_5.jpg" width="100%"></img></td>
+            <td><img src="https://recallstudy.s3.us-east-2.amazonaws.com/logo_72_5.jpg" height="70px"></img></td>
             <td onclick="question0_0.click()"><input type="radio" required id="question0_0" name="question0" value="0"></td>
             <td onclick="question0_1.click()"><input type="radio" required id="question0_1" name="question0" value="1"></td>
             <td onclick="question0_2.click()"><input type="radio" required id="question0_2" name="question0" value="2"></td>
           </tr>
           <tr>
-            <td><img src="https://recallstudy.s3.us-east-2.amazonaws.com/logo_75_0.jpg" width="100%"></img></td>
+            <td><img src="https://recallstudy.s3.us-east-2.amazonaws.com/logo_75_0.jpg" height="70px"></img></td>
             <td onclick="question1_0.click()"><input type="radio" required id="question1_0" name="question1" value="0"></td>
             <td onclick="question1_1.click()"><input type="radio" required id="question1_1" name="question1" value="1"></td>
             <td onclick="question1_2.click()"><input type="radio" required id="question1_2" name="question1" value="2"></td>
           </tr>
           <tr>
-            <td><img src="https://recallstudy.s3.us-east-2.amazonaws.com/logo_90_4.jpg" width="100%"></img></td>
+            <td><img src="https://recallstudy.s3.us-east-2.amazonaws.com/logo_90_4.jpg" height="70px"></img></td>
             <td onclick="question2_0.click()"><input type="radio" required id="question2_0" name="question2" value="0"></td>
             <td onclick="question2_1.click()"><input type="radio" required id="question2_1" name="question2" value="1"></td>
             <td onclick="question2_2.click()"><input type="radio" required id="question2_2" name="question2" value="2"></td>
           </tr>
           <tr>
-            <td><img src="https://recallstudy.s3.us-east-2.amazonaws.com/logo_45_0.jpg" width="100%"></img></td>
+            <td><img src="https://recallstudy.s3.us-east-2.amazonaws.com/logo_45_0.jpg" height="70px"></img></td>
             <td onclick="question3_0.click()"><input type="radio" required id="question3_0" name="question3" value="0"></td>
             <td onclick="question3_1.click()"><input type="radio" required id="question3_1" name="question3" value="1"></td>
             <td onclick="question3_2.click()"><input type="radio" required id="question3_2" name="question3" value="2"></td>
           </tr>
           <tr>
-            <td><img src="https://recallstudy.s3.us-east-2.amazonaws.com/logo_73_4.jpg" width="100%"></img></td>
+            <td><img src="https://recallstudy.s3.us-east-2.amazonaws.com/logo_73_4.jpg" height="70px"></img></td>
             <td onclick="question4_0.click()"><input type="radio" required id="question4_0" name="question4" value="0"></td>
             <td onclick="question4_1.click()"><input type="radio" required id="question4_1" name="question4" value="1"></td>
             <td onclick="question4_2.click()"><input type="radio" required id="question4_2" name="question4" value="2"></td>
           </tr>
           <tr>
-            <td><img src="https://recallstudy.s3.us-east-2.amazonaws.com/logo_86_5.jpg" width="100%"></img></td>
+            <td><img src="https://recallstudy.s3.us-east-2.amazonaws.com/logo_86_5.jpg" height="70px"></img></td>
             <td onclick="question5_0.click()"><input type="radio" required id="question5_0" name="question5" value="0"></td>
             <td onclick="question5_1.click()"><input type="radio" required id="question5_1" name="question5" value="1"></td>
             <td onclick="question5_2.click()"><input type="radio" required id="question5_2" name="question5" value="2"></td>
           </tr>
           <tr>
-            <td><img src="https://recallstudy.s3.us-east-2.amazonaws.com/logo_25_0.jpg" width="100%"></img></td>
+            <td><img src="https://recallstudy.s3.us-east-2.amazonaws.com/logo_25_0.jpg" height="70px"></img></td>
             <td onclick="question6_0.click()"><input type="radio" required id="question6_0" name="question6" value="0"></td>
             <td onclick="question6_1.click()"><input type="radio" required id="question6_1" name="question6" value="1"></td>
             <td onclick="question6_2.click()"><input type="radio" required id="question6_2" name="question6" value="2"></td>
           </tr>
           <tr>
-            <td><img src="https://recallstudy.s3.us-east-2.amazonaws.com/logo_85_0.jpg" width="100%"></img></td>
+            <td><img src="https://recallstudy.s3.us-east-2.amazonaws.com/logo_85_0.jpg" height="70px"></img></td>
             <td onclick="question7_0.click()"><input type="radio" required id="question7_0" name="question7" value="0"></td>
             <td onclick="question7_1.click()"><input type="radio" required id="question7_1" name="question7" value="1"></td>
             <td onclick="question7_2.click()"><input type="radio" required id="question7_2" name="question7" value="2"></td>
           </tr>
           <tr>
-            <td><img src="https://recallstudy.s3.us-east-2.amazonaws.com/logo_70_0.jpg" width="100%"></img></td>
+            <td><img src="https://recallstudy.s3.us-east-2.amazonaws.com/logo_70_0.jpg" height="70px"></img></td>
             <td onclick="question8_0.click()"><input type="radio" required id="question8_0" name="question8" value="0"></td>
             <td onclick="question8_1.click()"><input type="radio" required id="question8_1" name="question8" value="1"></td>
             <td onclick="question8_2.click()"><input type="radio" required id="question8_2" name="question8" value="2"></td>
           </tr>
           <tr>
-            <td><img src="https://recallstudy.s3.us-east-2.amazonaws.com/logo_95_0.jpg" width="100%"></img></td>
+            <td><img src="https://recallstudy.s3.us-east-2.amazonaws.com/logo_95_0.jpg" height="70px"></img></td>
             <td onclick="question9_0.click()"><input type="radio" required id="question9_0" name="question9" value="0"></td>
             <td onclick="question9_1.click()"><input type="radio" required id="question9_1" name="question9" value="1"></td>
             <td onclick="question9_2.click()"><input type="radio" required id="question9_2" name="question9" value="2"></td>
           </tr>
           <tr>
-            <td><img src="https://recallstudy.s3.us-east-2.amazonaws.com/logo_26_9.jpg" width="100%"></img></td>
+            <td><img src="https://recallstudy.s3.us-east-2.amazonaws.com/logo_26_9.jpg" height="70px"></img></td>
             <td onclick="question10_0.click()"><input type="radio" required id="question10_0" name="question10" value="0"></td>
             <td onclick="question10_1.click()"><input type="radio" required id="question10_1" name="question10" value="1"></td>
             <td onclick="question10_2.click()"><input type="radio" required id="question10_2" name="question10" value="2"></td>
           </tr>
           <tr>
-            <td><img src="https://recallstudy.s3.us-east-2.amazonaws.com/logo_00_0.jpg" width="100%"></img></td>
+            <td><img src="https://recallstudy.s3.us-east-2.amazonaws.com/logo_00_0.jpg" height="70px"></img></td>
             <td onclick="question11_0.click()"><input type="radio" required id="question11_0" name="question11" value="0"></td>
             <td onclick="question11_1.click()"><input type="radio" required id="question11_1" name="question11" value="1"></td>
             <td onclick="question11_2.click()"><input type="radio" required id="question11_2" name="question11" value="2"></td>
           </tr>
           <tr>
-            <td><img src="https://recallstudy.s3.us-east-2.amazonaws.com/logo_69_3.jpg" width="100%"></img></td>
+            <td><img src="https://recallstudy.s3.us-east-2.amazonaws.com/logo_69_3.jpg" height="70px"></img></td>
             <td onclick="question12_0.click()"><input type="radio" required id="question12_0" name="question12" value="0"></td>
             <td onclick="question12_1.click()"><input type="radio" required id="question12_1" name="question12" value="1"></td>
             <td onclick="question12_2.click()"><input type="radio" required id="question12_2" name="question12" value="2"></td>
           </tr>
           <tr>
-            <td><img src="https://recallstudy.s3.us-east-2.amazonaws.com/logo_52_1.jpg" width="100%"></img></td>
+            <td><img src="https://recallstudy.s3.us-east-2.amazonaws.com/logo_52_1.jpg" height="70px"></img></td>
             <td onclick="question13_0.click()"><input type="radio" required id="question13_0" name="question13" value="0"></td>
             <td onclick="question13_1.click()"><input type="radio" required id="question13_1" name="question13" value="1"></td>
             <td onclick="question13_2.click()"><input type="radio" required id="question13_2" name="question13" value="2"></td>
           </tr>
           <tr>
-            <td><img src="https://recallstudy.s3.us-east-2.amazonaws.com/logo_35_0.jpg" width="100%"></img></td>
+            <td><img src="https://recallstudy.s3.us-east-2.amazonaws.com/logo_35_0.jpg" height="70px"></img></td>
             <td onclick="question14_0.click()"><input type="radio" required id="question14_0" name="question14" value="0"></td>
             <td onclick="question14_1.click()"><input type="radio" required id="question14_1" name="question14" value="1"></td>
             <td onclick="question14_2.click()"><input type="radio" required id="question14_2" name="question14" value="2"></td>
           </tr>
           <tr>
-            <td><img src="https://recallstudy.s3.us-east-2.amazonaws.com/logo_10_0.jpg" width="100%"></img></td>
+            <td><img src="https://recallstudy.s3.us-east-2.amazonaws.com/logo_10_0.jpg" height="70px"></img></td>
             <td onclick="question15_0.click()"><input type="radio" required id="question15_0" name="question15" value="0"></td>
             <td onclick="question15_1.click()"><input type="radio" required id="question15_1" name="question15" value="1"></td>
             <td onclick="question15_2.click()"><input type="radio" required id="question15_2" name="question15" value="2"></td>
           </tr>
           <tr>
-            <td><img src="https://recallstudy.s3.us-east-2.amazonaws.com/logo_81_2.jpg" width="100%"></img></td>
+            <td><img src="https://recallstudy.s3.us-east-2.amazonaws.com/logo_81_2.jpg" height="70px"></img></td>
             <td onclick="question16_0.click()"><input type="radio" required id="question16_0" name="question16" value="0"></td>
             <td onclick="question16_1.click()"><input type="radio" required id="question16_1" name="question16" value="1"></td>
             <td onclick="question16_2.click()"><input type="radio" required id="question16_2" name="question16" value="2"></td>
           </tr>
           <tr>
-            <td><img src="https://recallstudy.s3.us-east-2.amazonaws.com/logo_20_0.jpg" width="100%"></img></td>
+            <td><img src="https://recallstudy.s3.us-east-2.amazonaws.com/logo_20_0.jpg" height="70px"></img></td>
             <td onclick="question17_0.click()"><input type="radio" required id="question17_0" name="question17" value="0"></td>
             <td onclick="question17_1.click()"><input type="radio" required id="question17_1" name="question17" value="1"></td>
             <td onclick="question17_2.click()"><input type="radio" required id="question17_2" name="question17" value="2"></td>
           </tr>
           <tr>
-            <td><img src="https://recallstudy.s3.us-east-2.amazonaws.com/logo_50_0.jpg" width="100%"></img></td>
+            <td><img src="https://recallstudy.s3.us-east-2.amazonaws.com/logo_50_0.jpg" height="70px"></img></td>
             <td onclick="question18_0.click()"><input type="radio" required id="question18_0" name="question18" value="0"></td>
             <td onclick="question18_1.click()"><input type="radio" required id="question18_1" name="question18" value="1"></td>
             <td onclick="question18_2.click()"><input type="radio" required id="question18_2" name="question18" value="2"></td>
           </tr>
           <tr>
-            <td><img src="https://recallstudy.s3.us-east-2.amazonaws.com/logo_60_0.jpg" width="100%"></img></td>
+            <td><img src="https://recallstudy.s3.us-east-2.amazonaws.com/logo_60_0.jpg" height="70px"></img></td>
             <td onclick="question19_0.click()"><input type="radio" required id="question19_0" name="question19" value="0"></td>
             <td onclick="question19_1.click()"><input type="radio" required id="question19_1" name="question19" value="1"></td>
             <td onclick="question19_2.click()"><input type="radio" required id="question19_2" name="question19" value="2"></td>
@@ -493,5 +498,6 @@
         <button class="button" style="margin: 0 auto;display: block;">Continue with questionnaire</button>
         <input type="submit" value="Submit" disabled>
     </div>
+  </form>
 </body>
 </html>
