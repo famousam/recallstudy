@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Survey</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+    </style>
+    <style type="text/css">
+            font-size: 20px;
+            table {
+          font-family: arial, sans-serif;
+          border-collapse: collapse;
+          width: 100%;
+        }
+
+        td, th {
+          border: 1px solid #dddddd;
+          text-align: left;
+          padding: 8px;
+          font-size: 20px;
+        }
+
+        tr:nth-child(even) {
+          background-color: #dddddd;
+        }
+            .div { font-size: 3vw;}
+          .button {
+            background-color: #4CAF50; /* Green */
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 24px;
+          }
+            .phone {
+              border: 0px;
+              background-image: url('https://instaimagessurvey.s3.us-east-2.amazonaws.com/insta_bg_new.gif');
+              /*background-size: contain;*/
+              background-size: cover;
+              /*max-width: 300px;*/
+              /*max-height: 100%;*/
+              height: 95vh;
+              width: 44vh;
+              max-width: 100%;
+              max-height: 100%;
+              /*overflow: auto;*/
+
+          }
+          .phone_inner {
+          /*padding: 50px;*/
+          /*margin: 50px;*/
+          background: transparent;
+          box-sizing: border-box;
+          resize: horizontal;
+          /*border: solid rgba(255,255,255,0) ;*/
+          border-top: 13.5vh solid rgba(255,255,255,0);
+          border-bottom: 10vh  solid rgba(255,255,255,0);
+          border-left: 2vh solid rgba(255,255,255,0);
+          border-right: 2vh  solid rgba(255,255,255,0);
+          overflow: auto;
+          /*width: 100%;*/
+          /*height: 800px;*/
+
+
+          height: 100vh;
+          max-height: 100%;
+        }
+        .phone_outer {
+          width: 44vh;
+          /*padding-bottom: 48%;*/
+          background: white; /** <-- For the demo **/
+          height: 95vh;
+        }
+          </style>
+    <script type="text/javascript">
+    window.onload = function() {
+        const pages = Array.from(document.getElementsByClassName('page'));
+        pages.forEach((page, index) => {
+            let button = page.querySelector('.button');
+            button.style.backgroundColor = 'gray';
+            button.onclick = function(event) {
+                event.preventDefault();
+                if (button.style.backgroundColor === 'green' || page.id === "q_text") {
+                    let redirect = false;
+                    if (page.id === "att2") {
+                        const att0Value = page.querySelector(`input[name="att_question0"]:checked`)?.value;
+                        const att1Value = page.querySelector(`input[name="att_question1"]:checked`)?.value;
+                        const att2Value = page.querySelector(`input[name="att_question2"]:checked`)?.value;
+                        const att3Value = page.querySelector(`input[name="att_question3"]:checked`)?.value;
+                        if (att0Value !== '0' || att1Value !== '2' || att2Value !== '2' || att3Value !== '0') {
+                            redirect = true;
+                        }
+                    }
+                    
+                    if (redirect) {
+                        window.location.href = 'attentioncheck_failure.html';
+                    } else if (pages[index + 1]) {
+                        page.style.display = 'none';
+                        pages[index + 1].style.display = 'block';
+                        // Check if next page needs focus in textarea
+                        let textarea = pages[index + 1]?.querySelector('textarea');
+                        if(textarea && (pages[index + 1].id === "att1" || pages[index + 1].id === "q_text")){
+                            textarea.focus();
+                        }
+                    } else {
+                        window.location.href = 'next_page.html';
+                    }
+                } else {
+                    if(page.id === "att1"){
+                        alert("Please make sure to write both 'disney' and 'amazon', separated by a comma.");
+                    }else{
+                        alert('Please answer all questions before proceeding');
+                    }
+                }
+            }
+    
+            let radioButtons = Array.from(page.getElementsByTagName('input')).filter(input => input.type === 'radio');
+            let radioNames = [...new Set(radioButtons.map(radio => radio.name))];
+            radioButtons.forEach(radio => radio.onchange = checkAnswers);
+            
+            let textarea = page.querySelector('textarea');
+            if(textarea){
+                textarea.oninput = checkAnswers;
+            }
+    
+            function checkAnswers() {
+                let allAnswered = true;
+                if(radioButtons.length > 0){
+                    allAnswered = radioNames.every(name => page.querySelector(`input[name=${name}]:checked`));
+                }
+    
+                if(textarea && page.id !== "q_text"){
+                    const inputText = textarea.value.toLowerCase();
+                    const words = inputText.split(',');
+                    const hasDisney = words.some(word => word.trim() === 'disney');
+                    const hasAmazon = words.some(word => word.trim() === 'amazon');
+                    allAnswered = hasDisney && hasAmazon;
+                }
+    
+                button.style.backgroundColor = allAnswered ? 'green' : 'gray';
+            }
+    
+            checkAnswers();
+        });
+    
+        // Initial focus on textarea if page is "att1" or "q_text"
+        let textarea = pages[0]?.querySelector('textarea');
+        if(textarea && (pages[0].id === "att1" || pages[0].id === "q_text")){
+            textarea.focus();
+        }
+        pages[0].style.display = 'block';
+    }
+    </script>
+    
+</head>
+    
+<body>
+    <div id="i0" class="page show">
+       Thank you for participating in our online experience.<br>
+       This is a <b>multi-page-survey</b>! You need to scroll down all the way to click on "next" to go to the next page until you can click on the "submit" button to finish the task.<br>
+      <p>  
+      On the next page you should look at a number of images that look like posts on the social media platform Instagram.<br>
+      Please look at all the images when you scroll down - you will find a "next" button on the very bottom. You will be asked a number of questions about these images on the following pages.</p>
+      <button class="button">Start</button>
+
+    </div>
+    <div id="i1" style="display: none" class="page hide">
+        <div class="phone_outer">
+         <div class="phone">
+            <div class="phone_inner">
+              <img src="https://instaimagessurvey.s3.us-east-2.amazonaws.com/insta_top.jpg" width="100%"></img>
+              <img src="https://recallstudy.s3.us-east-2.amazonaws.com/no_4.jpg" width="100%"></img>
+              <img src="https://instaimagessurvey.s3.us-east-2.amazonaws.com/insta_bottom.jpg" width="100%"></img>
+              <img src="https://instaimagessurvey.s3.us-east-2.amazonaws.com/insta_top.jpg" width="100%"></img>
+              <img src="https://recallstudy.s3.us-east-2.amazonaws.com/img_50_0.jpg" width="100%"></img>
+              <img src="https://instaimagessurvey.s3.us-east-2.amazonaws.com/insta_bottom.jpg" width="100%"></img>
+              <img src="https://instaimagessurvey.s3.us-east-2.amazonaws.com/insta_top.jpg" width="100%"></img>
+              <img src="https://recallstudy.s3.us-east-2.amazonaws.com/img_35_0.jpg" width="100%"></img>
+              <img src="https://instaimagessurvey.s3.us-east-2.amazonaws.com/insta_bottom.jpg" width="100%"></img>
+              <img src="https://instaimagessurvey.s3.us-east-2.amazonaws.com/insta_top.jpg" width="100%"></img>
+              <img src="https://recallstudy.s3.us-east-2.amazonaws.com/img_75_0.jpg" width="100%"></img>
+              <img src="https://instaimagessurvey.s3.us-east-2.amazonaws.com/insta_bottom.jpg" width="100%"></img>
+              <img src="https://instaimagessurvey.s3.us-east-2.amazonaws.com/insta_top.jpg" width="100%"></img>
+              <img src="https://recallstudy.s3.us-east-2.amazonaws.com/img_45_0.jpg" width="100%"></img>
+              <img src="https://instaimagessurvey.s3.us-east-2.amazonaws.com/insta_bottom.jpg" width="100%"></img>
+              <img src="https://instaimagessurvey.s3.us-east-2.amazonaws.com/insta_top.jpg" width="100%"></img>
+              <img src="https://recallstudy.s3.us-east-2.amazonaws.com/img_0_0.jpg" width="100%"></img>
+              <img src="https://instaimagessurvey.s3.us-east-2.amazonaws.com/insta_bottom.jpg" width="100%"></img>
+              <img src="https://instaimagessurvey.s3.us-east-2.amazonaws.com/insta_top.jpg" width="100%"></img>
+              <img src="https://recallstudy.s3.us-east-2.amazonaws.com/img_25_0.jpg" width="100%"></img>
+              <img src="https://instaimagessurvey.s3.us-east-2.amazonaws.com/insta_bottom.jpg" width="100%"></img>
+              <img src="https://instaimagessurvey.s3.us-east-2.amazonaws.com/insta_top.jpg" width="100%"></img>
+              <img src="https://recallstudy.s3.us-east-2.amazonaws.com/img_95_0.jpg" width="100%"></img>
+              <img src="https://instaimagessurvey.s3.us-east-2.amazonaws.com/insta_bottom.jpg" width="100%"></img>
+              <img src="https://instaimagessurvey.s3.us-east-2.amazonaws.com/insta_top.jpg" width="100%"></img>
+              <img src="https://recallstudy.s3.us-east-2.amazonaws.com/img_20_0.jpg" width="100%"></img>
+              <img src="https://instaimagessurvey.s3.us-east-2.amazonaws.com/insta_bottom.jpg" width="100%"></img>
+              <img src="https://instaimagessurvey.s3.us-east-2.amazonaws.com/insta_top.jpg" width="100%"></img>
+              <img src="https://recallstudy.s3.us-east-2.amazonaws.com/img_60_0.jpg" width="100%"></img>
+              <img src="https://instaimagessurvey.s3.us-east-2.amazonaws.com/insta_bottom.jpg" width="100%"></img>
+              <img src="https://instaimagessurvey.s3.us-east-2.amazonaws.com/insta_top.jpg" width="100%"></img>
+              <img src="https://recallstudy.s3.us-east-2.amazonaws.com/no_1.jpg" width="100%"></img>
+              <img src="https://instaimagessurvey.s3.us-east-2.amazonaws.com/insta_bottom.jpg" width="100%"></img>
+              <img src="https://instaimagessurvey.s3.us-east-2.amazonaws.com/insta_top.jpg" width="100%"></img>
+              <img src="https://recallstudy.s3.us-east-2.amazonaws.com/img_10_0.jpg" width="100%"></img>
+              <img src="https://instaimagessurvey.s3.us-east-2.amazonaws.com/insta_bottom.jpg" width="100%"></img>
+              <img src="https://instaimagessurvey.s3.us-east-2.amazonaws.com/insta_top.jpg" width="100%"></img>
+              <img src="https://recallstudy.s3.us-east-2.amazonaws.com/no_7.jpg" width="100%"></img>
+              <img src="https://instaimagessurvey.s3.us-east-2.amazonaws.com/insta_bottom.jpg" width="100%"></img>
+              <img src="https://instaimagessurvey.s3.us-east-2.amazonaws.com/insta_top.jpg" width="100%"></img>
+              <img src="https://recallstudy.s3.us-east-2.amazonaws.com/no_6.jpg" width="100%"></img>
+              <img src="https://instaimagessurvey.s3.us-east-2.amazonaws.com/insta_bottom.jpg" width="100%"></img>
+              <img src="https://instaimagessurvey.s3.us-east-2.amazonaws.com/insta_top.jpg" width="100%"></img>
+              <img src="https://recallstudy.s3.us-east-2.amazonaws.com/img_85_0.jpg" width="100%"></img>
+              <img src="https://instaimagessurvey.s3.us-east-2.amazonaws.com/insta_bottom.jpg" width="100%"></img>
+              <img src="https://instaimagessurvey.s3.us-east-2.amazonaws.com/insta_top.jpg" width="100%"></img>
+              <img src="https://recallstudy.s3.us-east-2.amazonaws.com/no_2.jpg" width="100%"></img>
+              <img src="https://instaimagessurvey.s3.us-east-2.amazonaws.com/insta_bottom.jpg" width="100%"></img>
+              <img src="https://instaimagessurvey.s3.us-east-2.amazonaws.com/insta_top.jpg" width="100%"></img>
+              <img src="https://recallstudy.s3.us-east-2.amazonaws.com/no_0.jpg" width="100%"></img>
+              <img src="https://instaimagessurvey.s3.us-east-2.amazonaws.com/insta_bottom.jpg" width="100%"></img>
+              <img src="https://instaimagessurvey.s3.us-east-2.amazonaws.com/insta_top.jpg" width="100%"></img>
+              <img src="https://recallstudy.s3.us-east-2.amazonaws.com/img_70_0.jpg" width="100%"></img>
+              <img src="https://instaimagessurvey.s3.us-east-2.amazonaws.com/insta_bottom.jpg" width="100%"></img>
+              <img src="https://instaimagessurvey.s3.us-east-2.amazonaws.com/insta_top.jpg" width="100%"></img>
+              <img src="https://recallstudy.s3.us-east-2.amazonaws.com/no_3.jpg" width="100%"></img>
+              <img src="https://instaimagessurvey.s3.us-east-2.amazonaws.com/insta_bottom.jpg" width="100%"></img>
+              <img src="https://instaimagessurvey.s3.us-east-2.amazonaws.com/insta_top.jpg" width="100%"></img>
+              <img src="https://recallstudy.s3.us-east-2.amazonaws.com/no_5.jpg" width="100%"></img>
+              <img src="https://instaimagessurvey.s3.us-east-2.amazonaws.com/insta_bottom.jpg" width="100%"></img><br><br>
+              <button class="button" style="margin: 0 auto;display: block;">Start questionaire</button><br><br>
+            </div>
+          </div>
+        </div>
+    </div>
+    <div id="q_demographics"  style="display: none" class="page hide">
+      <h2>Please give us a little background about yourself</h2>
+      <p>What is your gender?</p>
+      <input type="radio" required id="gender_1" name="gender" value="1">
+      <label onclick="gender_1.click()">Female</label>
+      <input type="radio" required id="gender_2" name="gender" value="2">
+      <label onclick="gender_2.click()">Male</label>
+      <input type="radio" required id="gender_3" name="gender" value="3">
+      <label onclick="gender_3.click()">Other</label>
+      <input type="radio" required id="gender_4" name="gender" value="4">
+      <label onclick="gender_4.click()">Prefer not to say</label><br><br>
+
+      <p>Are you color blind?</p>
+      <input type="radio" required id="colorblindness_1" name="colorblindness" value="1">
+      <label onclick="colorblindness_1.click()">Yes</label>
+      <input type="radio" required id="colorblindness_2" name="colorblindness" value="2">
+      <label onclick="colorblindness_2.click()">No</label><br><br>
+
+      <p>How often are you using social media:</p>
+      <input type="radio" required id="social_media_usage_1" name="social_media_usage" value="1">
+      <label onclick="social_media_usage_1.click()">Never</label>
+      <input type="radio" required id="social_media_usage_2" name="social_media_usage" value="2">
+      <label onclick="social_media_usage_2.click()">Less than once daily</label>
+      <input type="radio" required id="social_media_usage_3" name="social_media_usage" value="3">
+      <label onclick="social_media_usage_3.click()">About once daily</label>
+      <input type="radio" required id="social_media_usage_4" name="social_media_usage" value="4">
+      <label onclick="social_media_usage_4.click()">Several times daily</label>
+      <input type="radio" required id="social_media_usage_5" name="social_media_usage" value="5">
+      <label onclick="social_media_usage_5.click()">Many times daily</label>
+      <input type="radio" required id="social_media_usage_6" name="social_media_usage" value="6">
+      <label onclick="social_media_usage_6.click()">All day long</label><br><br>
+
+      <p>Are you using Instagram:</p>
+      <input type="radio" required id="instagram_usage_1" name="instagram_usage" value="1">
+      <label onclick="instagram_usage_1.click()">Never</label>
+      <input type="radio" required id="instagram_usage_2" name="instagram_usage" value="2">
+      <label onclick="instagram_usage_2.click()">Only a few time daily</label>
+      <input type="radio" required id="instagram_usage_3" name="instagram_usage" value="3">
+      <label onclick="instagram_usage_3.click()">Many times daily</label>
+      <input type="radio" required id="instagram_usage_4" name="instagram_usage" value="4">
+      <label onclick="instagram_usage_4.click()">All day long</label>
+
+
+      <p>When purchasing, I focus mainly on the brand.</p>
+      <input type="radio" required id="brand_focus_1" name="brand_focus" value="1">
+      <label onclick="brand_focus_1.click()">Strongly disagree</label>
+      <input type="radio" required id="brand_focus_2" name="brand_focus" value="2">
+      <label onclick="brand_focus_2.click()">&nbsp;</label>
+      <input type="radio" required id="brand_focus_3" name="brand_focus" value="3">
+      <label onclick="brand_focus_3.click()">&nbsp;</label>
+      <input type="radio" required id="brand_focus_4" name="brand_focus" value="4">
+      <label onclick="brand_focus_4.click()">&nbsp;</label>
+      <input type="radio" required id="brand_focus_5" name="brand_focus" value="5">
+      <label onclick="brand_focus_5.click()">strongly agree</label>
+
+      <!-- <button class="button" style="margin: 0 auto;display: block;" disabled>Continue with questionaire</button> -->
+      <button class="button" style="margin: 0 auto;display: block;">Continue with questionnaire</button>
+    </div>
+    <div id="att0"  style="display: none" class="page  hide">
+        <h2>Study Background</h2><br>
+       In this study, we want to understand how you recall brand elements. As an example you see this picture of an <b>amazon</b> and a <b>Disney</b> logo.<br>
+      <p>  
+      On the next pages you should remember that you did see <b>amazon</b> and <b>Disney</b>.<br>
+      You will be asked to input these two brands in textfield and then get asked with <b>yes/no</b> questions if you have seen these and other brands on the below image.<br></p>
+      <img src="https://recallstudy.s3.us-east-2.amazonaws.com/amazon_disney.jpg" width="50%"></img><br>
+      <button onclick="next()" class="button">Start</button>
+    </div>
+    <div id="att1"  style="display: none" class="page  hide">
+      <h2>Which brands appeared in the previous image? Please separate them by a comma between them.<br>
+       <b>Attention:</b> Please consider each brand carefully. Your payment will based on plausible responses. </h2>
+      <p>  
+      <textarea rows = "5" cols = "60" name = "description"></textarea><br>
+      <button class="button" style="margin: 0 auto;display: block;">Continue with questionnaire</button>
+    </div>
+    <div id="att2"  style="display: none" class="page  hide">
+      <h2>Can you indicate which of the following brands appeared on the previous image?<br>
+       <b>Attention:</b> Please consider each brand carefully. Your payment will based on plausible responses. </h2>
+      <p>  
+      <table>
+          <tr>
+            <th width="40%">&nbsp;</th>
+            <th width="20%">Yes, definitely</th>
+            <th width="20%">Maybe</th>
+            <th width="20%">No, definitely not</th>
+          </tr>
+          <tr>
+            <td><img src="https://recallstudy.s3.us-east-2.amazonaws.com/Disney.png" height="50px"></img></td>
+            <td onclick="att_question0_0.click()"><input type="radio" required id="att_question0_0" name="att_question0" value="0"></td>
+            <td onclick="att_question0_1.click()"><input type="radio" required id="att_question0_1" name="att_question0" value="1"></td>
+            <td onclick="att_question0_2.click()"><input type="radio" required id="att_question0_2" name="att_question0" value="2"></td>
+          </tr>
+          <tr>
+            <td><img src="https://recallstudy.s3.us-east-2.amazonaws.com/Microsoft_29.png" height="50px"></img></td>
+            <td onclick="att_question1_0.click()"><input type="radio" required id="att_question1_0" name="att_question1" value="0"></td>
+            <td onclick="att_question1_1.click()"><input type="radio" required id="att_question1_1" name="att_question1" value="1"></td>
+            <td onclick="att_question1_2.click()"><input type="radio" required id="att_question1_2" name="att_question1" value="2"></td>
+          </tr>
+          <tr>
+            <td><img src="https://recallstudy.s3.us-east-2.amazonaws.com/Tesla-Logo-No-Background.png" height="50px"></img></td>
+            <td onclick="att_question2_0.click()"><input type="radio" required id="att_question2_0" name="att_question2" value="0"></td>
+            <td onclick="att_question2_1.click()"><input type="radio" required id="att_question2_1" name="att_question2" value="1"></td>
+            <td onclick="att_question2_2.click()"><input type="radio" required id="att_question2_2" name="att_question2" value="2"></td>
+          </tr>
+          <tr>
+            <td><img src="https://recallstudy.s3.us-east-2.amazonaws.com/Amazon.png" height="50px"></img></td>
+            <td onclick="att_question3_0.click()"><input type="radio" required id="att_question3_0" name="att_question3" value="0"></td>
+            <td onclick="att_question3_1.click()"><input type="radio" required id="att_question3_1" name="att_question3" value="1"></td>
+            <td onclick="att_question3_2.click()"><input type="radio" required id="att_question3_2" name="att_question3" value="2"></td>
+          </tr>
+        </table><br>
+      <button class="button" style="margin: 0 auto;display: block;">Continue with questionnaire</button>
+    </div>
+    <div id="q_text"  style="display: none" class="page  hide">
+      <h2>Which brands appeared in the previous image? Please separate them by a comma between them.<br>
+       <b>Attention:</b> Please consider each brand carefully. Your payment will based on plausible responses. </h2>
+      <p>  
+      <textarea rows = "5" cols = "60" name = "description"></textarea><br>
+      <button class="button" style="margin: 0 auto;display: block;">Continue with questionnaire</button>
+    </div>
+    <div id="q_radio" style="display: none" class="page hide">
+          <h2>Can you indicate which of the following brands appeared on the previous image?
+        <b>Attention:</b> Please consider each brand carefully. Your payment will based on plausible responses. </h2>
+
+        <table>
+          <tr>
+            <th width="40%">&nbsp;</th>
+            <th width="20%">Yes, definitely</th>
+            <th width="20%">Maybe</th>
+            <th width="20%">No, definitely not</th>
+          </tr>
+          <tr>
+            <td><img src="https://recallstudy.s3.us-east-2.amazonaws.com/logo_72_5.jpg" width="100%"></img></td>
+            <td onclick="question0_0.click()"><input type="radio" required id="question0_0" name="question0" value="0"></td>
+            <td onclick="question0_1.click()"><input type="radio" required id="question0_1" name="question0" value="1"></td>
+            <td onclick="question0_2.click()"><input type="radio" required id="question0_2" name="question0" value="2"></td>
+          </tr>
+          <tr>
+            <td><img src="https://recallstudy.s3.us-east-2.amazonaws.com/logo_75_0.jpg" width="100%"></img></td>
+            <td onclick="question1_0.click()"><input type="radio" required id="question1_0" name="question1" value="0"></td>
+            <td onclick="question1_1.click()"><input type="radio" required id="question1_1" name="question1" value="1"></td>
+            <td onclick="question1_2.click()"><input type="radio" required id="question1_2" name="question1" value="2"></td>
+          </tr>
+          <tr>
+            <td><img src="https://recallstudy.s3.us-east-2.amazonaws.com/logo_90_4.jpg" width="100%"></img></td>
+            <td onclick="question2_0.click()"><input type="radio" required id="question2_0" name="question2" value="0"></td>
+            <td onclick="question2_1.click()"><input type="radio" required id="question2_1" name="question2" value="1"></td>
+            <td onclick="question2_2.click()"><input type="radio" required id="question2_2" name="question2" value="2"></td>
+          </tr>
+          <tr>
+            <td><img src="https://recallstudy.s3.us-east-2.amazonaws.com/logo_45_0.jpg" width="100%"></img></td>
+            <td onclick="question3_0.click()"><input type="radio" required id="question3_0" name="question3" value="0"></td>
+            <td onclick="question3_1.click()"><input type="radio" required id="question3_1" name="question3" value="1"></td>
+            <td onclick="question3_2.click()"><input type="radio" required id="question3_2" name="question3" value="2"></td>
+          </tr>
+          <tr>
+            <td><img src="https://recallstudy.s3.us-east-2.amazonaws.com/logo_73_4.jpg" width="100%"></img></td>
+            <td onclick="question4_0.click()"><input type="radio" required id="question4_0" name="question4" value="0"></td>
+            <td onclick="question4_1.click()"><input type="radio" required id="question4_1" name="question4" value="1"></td>
+            <td onclick="question4_2.click()"><input type="radio" required id="question4_2" name="question4" value="2"></td>
+          </tr>
+          <tr>
+            <td><img src="https://recallstudy.s3.us-east-2.amazonaws.com/logo_86_5.jpg" width="100%"></img></td>
+            <td onclick="question5_0.click()"><input type="radio" required id="question5_0" name="question5" value="0"></td>
+            <td onclick="question5_1.click()"><input type="radio" required id="question5_1" name="question5" value="1"></td>
+            <td onclick="question5_2.click()"><input type="radio" required id="question5_2" name="question5" value="2"></td>
+          </tr>
+          <tr>
+            <td><img src="https://recallstudy.s3.us-east-2.amazonaws.com/logo_25_0.jpg" width="100%"></img></td>
+            <td onclick="question6_0.click()"><input type="radio" required id="question6_0" name="question6" value="0"></td>
+            <td onclick="question6_1.click()"><input type="radio" required id="question6_1" name="question6" value="1"></td>
+            <td onclick="question6_2.click()"><input type="radio" required id="question6_2" name="question6" value="2"></td>
+          </tr>
+          <tr>
+            <td><img src="https://recallstudy.s3.us-east-2.amazonaws.com/logo_85_0.jpg" width="100%"></img></td>
+            <td onclick="question7_0.click()"><input type="radio" required id="question7_0" name="question7" value="0"></td>
+            <td onclick="question7_1.click()"><input type="radio" required id="question7_1" name="question7" value="1"></td>
+            <td onclick="question7_2.click()"><input type="radio" required id="question7_2" name="question7" value="2"></td>
+          </tr>
+          <tr>
+            <td><img src="https://recallstudy.s3.us-east-2.amazonaws.com/logo_70_0.jpg" width="100%"></img></td>
+            <td onclick="question8_0.click()"><input type="radio" required id="question8_0" name="question8" value="0"></td>
+            <td onclick="question8_1.click()"><input type="radio" required id="question8_1" name="question8" value="1"></td>
+            <td onclick="question8_2.click()"><input type="radio" required id="question8_2" name="question8" value="2"></td>
+          </tr>
+          <tr>
+            <td><img src="https://recallstudy.s3.us-east-2.amazonaws.com/logo_95_0.jpg" width="100%"></img></td>
+            <td onclick="question9_0.click()"><input type="radio" required id="question9_0" name="question9" value="0"></td>
+            <td onclick="question9_1.click()"><input type="radio" required id="question9_1" name="question9" value="1"></td>
+            <td onclick="question9_2.click()"><input type="radio" required id="question9_2" name="question9" value="2"></td>
+          </tr>
+          <tr>
+            <td><img src="https://recallstudy.s3.us-east-2.amazonaws.com/logo_26_9.jpg" width="100%"></img></td>
+            <td onclick="question10_0.click()"><input type="radio" required id="question10_0" name="question10" value="0"></td>
+            <td onclick="question10_1.click()"><input type="radio" required id="question10_1" name="question10" value="1"></td>
+            <td onclick="question10_2.click()"><input type="radio" required id="question10_2" name="question10" value="2"></td>
+          </tr>
+          <tr>
+            <td><img src="https://recallstudy.s3.us-east-2.amazonaws.com/logo_00_0.jpg" width="100%"></img></td>
+            <td onclick="question11_0.click()"><input type="radio" required id="question11_0" name="question11" value="0"></td>
+            <td onclick="question11_1.click()"><input type="radio" required id="question11_1" name="question11" value="1"></td>
+            <td onclick="question11_2.click()"><input type="radio" required id="question11_2" name="question11" value="2"></td>
+          </tr>
+          <tr>
+            <td><img src="https://recallstudy.s3.us-east-2.amazonaws.com/logo_69_3.jpg" width="100%"></img></td>
+            <td onclick="question12_0.click()"><input type="radio" required id="question12_0" name="question12" value="0"></td>
+            <td onclick="question12_1.click()"><input type="radio" required id="question12_1" name="question12" value="1"></td>
+            <td onclick="question12_2.click()"><input type="radio" required id="question12_2" name="question12" value="2"></td>
+          </tr>
+          <tr>
+            <td><img src="https://recallstudy.s3.us-east-2.amazonaws.com/logo_52_1.jpg" width="100%"></img></td>
+            <td onclick="question13_0.click()"><input type="radio" required id="question13_0" name="question13" value="0"></td>
+            <td onclick="question13_1.click()"><input type="radio" required id="question13_1" name="question13" value="1"></td>
+            <td onclick="question13_2.click()"><input type="radio" required id="question13_2" name="question13" value="2"></td>
+          </tr>
+          <tr>
+            <td><img src="https://recallstudy.s3.us-east-2.amazonaws.com/logo_35_0.jpg" width="100%"></img></td>
+            <td onclick="question14_0.click()"><input type="radio" required id="question14_0" name="question14" value="0"></td>
+            <td onclick="question14_1.click()"><input type="radio" required id="question14_1" name="question14" value="1"></td>
+            <td onclick="question14_2.click()"><input type="radio" required id="question14_2" name="question14" value="2"></td>
+          </tr>
+          <tr>
+            <td><img src="https://recallstudy.s3.us-east-2.amazonaws.com/logo_10_0.jpg" width="100%"></img></td>
+            <td onclick="question15_0.click()"><input type="radio" required id="question15_0" name="question15" value="0"></td>
+            <td onclick="question15_1.click()"><input type="radio" required id="question15_1" name="question15" value="1"></td>
+            <td onclick="question15_2.click()"><input type="radio" required id="question15_2" name="question15" value="2"></td>
+          </tr>
+          <tr>
+            <td><img src="https://recallstudy.s3.us-east-2.amazonaws.com/logo_81_2.jpg" width="100%"></img></td>
+            <td onclick="question16_0.click()"><input type="radio" required id="question16_0" name="question16" value="0"></td>
+            <td onclick="question16_1.click()"><input type="radio" required id="question16_1" name="question16" value="1"></td>
+            <td onclick="question16_2.click()"><input type="radio" required id="question16_2" name="question16" value="2"></td>
+          </tr>
+          <tr>
+            <td><img src="https://recallstudy.s3.us-east-2.amazonaws.com/logo_20_0.jpg" width="100%"></img></td>
+            <td onclick="question17_0.click()"><input type="radio" required id="question17_0" name="question17" value="0"></td>
+            <td onclick="question17_1.click()"><input type="radio" required id="question17_1" name="question17" value="1"></td>
+            <td onclick="question17_2.click()"><input type="radio" required id="question17_2" name="question17" value="2"></td>
+          </tr>
+          <tr>
+            <td><img src="https://recallstudy.s3.us-east-2.amazonaws.com/logo_50_0.jpg" width="100%"></img></td>
+            <td onclick="question18_0.click()"><input type="radio" required id="question18_0" name="question18" value="0"></td>
+            <td onclick="question18_1.click()"><input type="radio" required id="question18_1" name="question18" value="1"></td>
+            <td onclick="question18_2.click()"><input type="radio" required id="question18_2" name="question18" value="2"></td>
+          </tr>
+          <tr>
+            <td><img src="https://recallstudy.s3.us-east-2.amazonaws.com/logo_60_0.jpg" width="100%"></img></td>
+            <td onclick="question19_0.click()"><input type="radio" required id="question19_0" name="question19" value="0"></td>
+            <td onclick="question19_1.click()"><input type="radio" required id="question19_1" name="question19" value="1"></td>
+            <td onclick="question19_2.click()"><input type="radio" required id="question19_2" name="question19" value="2"></td>
+          </tr>
+        </table>
+        <button class="button" style="margin: 0 auto;display: block;">Continue with questionnaire</button>
+        <input type="submit" value="Submit" disabled>
+    </div>
+</body>
+</html>
